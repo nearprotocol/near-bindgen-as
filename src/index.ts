@@ -335,12 +335,15 @@ class JSONTransformer extends Transform {
       const libSource = BUNDLE["nearEntry"];
       this.parser.parseFile(libSource, "nearFile", true);
     }
+    if (!JSONTransformer.isTest){
+      TypeChecker.check(parser);
+    }
   }
   
   /** Check for floats */
   afterCompile(module: Module): void {
     if (!JSONTransformer.isTest){
-      TypeChecker.check(module);
+      TypeChecker.checkBinary(module);
     }
   }
 }
