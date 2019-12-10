@@ -27,6 +27,9 @@
     "url": "https://github.com/nearprotocol/near-bindgen/issues"
   },
   "homepage": "https://github.com/nearprotocol/near-bindgen#readme",
+  "dependencies": {
+    "@types/near": "file:./types"
+  },
   "devDependencies": {
     "assemblyscript": "^0.8.0",
     "ts-loader": "^6.2.0",

@@ -1,0 +1,4 @@
+{
+  "name": "@types/near",
+  "types": "near.d.ts"
+}
