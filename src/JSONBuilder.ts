@@ -1,19 +1,6 @@
-import {
-  Node,
-  FunctionDeclaration,
-  NodeKind,
-  Source,
-  SourceKind,
-  TypeNode,
-  ClassDeclaration,
-  DeclarationStatement,
-  Parser,
-  CommonFlags,
-  FieldDeclaration,
-  ParameterNode
-} from "./ast";
 import { ASTBuilder } from "./ASTBuilder";
 import { BaseVisitor } from "./base";
+import { NodeKind, CommonFlags, SourceKind } from "./enums";
 
 function returnsVoid(node: FunctionDeclaration): boolean {
   return toString(node.signature.returnType) === "void";

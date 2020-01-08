@@ -22,7 +22,7 @@ function _config(files, outfolder, toBundle) {
     resolve: {
       extensions: [".ts", ".js"]
     },
-    externals: ["assemblyscript"],
+    // externals: ["assemblyscript"],
     output: {
       filename: "index.js",
       path: outfolder,

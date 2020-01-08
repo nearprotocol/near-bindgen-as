@@ -1,4 +1,3 @@
-import { TypeName, Module, Source, Parser } from "./ast";
 import { BaseVisitor } from "./base";
 
 declare interface RegExp {

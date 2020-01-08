@@ -1,14 +1,34 @@
-import { Transform, Parser, Program, Source, Module } from "./ast";
 import { JSONBindingsBuilder, isEntry } from "./JSONBuilder";
 import { TypeChecker } from "./typeChecker";
+import { OutputStream } from "assemblyscript/cli/asc";
+
+abstract class Transform {
+
+  /** Base directory. */
+  baseDir: string;
+
+  /** Output stream used by the compiler. */
+  stdout: OutputStream;
+
+  /** Error stream used by the compiler. */
+  stderr: OutputStream;
+
+  /** Logs a message to console. */
+  log: typeof console.log;
+
+  /** Writes a file to disk. */
+  writeFile: (filename: string, contents: string | Uint8Array, baseDir: string) => boolean;
+
+  /** Reads a file from disk. */
+  readFile: (filename: string, baseDir: string) => string | null;
+
+  /** Lists all files in a directory. */
+  listFiles: (dirname: string, baseDir: string) => string[] | null;
+}
 
 class JSONTransformer extends Transform {
   parser: Parser;
   static isTest: boolean = false;
-
-  get program(): Program {
-    return this.parser.program;
-  }
 
   afterParse(parser: Parser): void {
     this.parser = parser;
