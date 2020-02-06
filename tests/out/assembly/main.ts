@@ -1,3 +1,4 @@
+import {storage} from "near-runtime-ts";
 import {
   storage,
   context,

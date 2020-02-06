@@ -1,3 +1,4 @@
+import {storage} from "near-runtime-ts";
 import {
   u128
 } from "bignum"
@@ -405,4 +406,74 @@ export class Generic<T> {
   toJSON(): string {
     return this._encode().toString();
   }
+}
+@orm
+export class Contract {
+  private _name: string;
+  constructor(name: string) {
+    this._name = name;
+  }
+  getName(): string {
+    return this._name;
+  }
+
+  decode<V = Uint8Array>(buf: V): Contract {
+    let json: JSON.Obj;
+    if (buf instanceof Uint8Array) {
+      json = JSON.parse(buf);
+    } else {
+      assert(buf instanceof JSON.Obj, "argument must be Uint8Array or Json Object");
+      json = <JSON.Obj> buf;
+    }
+    return this._decode(json);
+  }
+
+  static decode(buf: Uint8Array): Contract {
+    return decode<Contract>(buf);
+  }
+
+  private _decode(obj: JSON.Obj): Contract {
+    this._name = obj.has("_name") ? decode<string, JSON.Obj>(obj, "_name"): this._name;
+    return this;
+  }
+
+  _encode(name: string | null = "", _encoder: JSONEncoder | null = null): JSONEncoder {
+    let encoder = (_encoder == null ? new JSONEncoder() : _encoder)!;
+    encoder.pushObject(name);
+    encode<string, JSONEncoder>(this._name, "_name", encoder);
+    encoder.popObject();
+    return encoder;
+  }
+  encode(): Uint8Array {
+    return this._encode().serialize();
+  }
+
+  serialize(): Uint8Array {
+    return this.encode();
+  }
+
+  toJSON(): string {
+    return this._encode().toString();
+  }
+}    
+let __contract: Contract;
+
+if (storage.hasKey("__contract")) {
+  __contract = storage.get<Contract>("__contract")!;
+}
+
+function Contract_init(): void {
+  if (storage.hasKey("__contract")) {
+    return;
+  }
+  const obj = getInput();
+  let result: Contract = new Contract(decode<string, JSON.Obj>(obj, "name"));
+  storage.set<Contract>("__contract", __contract);
+}
+function Contract_getName(): void {
+  __contract = storage.get<Contract>("__contract");
+  let result: string = __contract.getName();
+  const val = encode<string>(result);
+  value_return(val.byteLength, <usize>val.buffer);
+  storage.set<Contract>("__contract", __contract);
 }

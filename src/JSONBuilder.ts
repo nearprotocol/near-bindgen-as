@@ -10,10 +10,19 @@ import {
   Parser,
   CommonFlags,
   FieldDeclaration,
-  ParameterNode
+  DecoratorNode,
+  IdentifierExpression,
+  ParameterNode,
 } from "./ast";
 import { ASTBuilder } from "./ASTBuilder";
 import { BaseVisitor } from "./base";
+import { MethodDeclaration } from "assemblyscript";
+const DECORATOR_NAME = "orm";
+
+function isDecorator(node: DecoratorNode): bool {
+  return node.name.kind == NodeKind.IDENTIFIER &&
+         (<IdentifierExpression>node.name).text == DECORATOR_NAME;
+}
 
 function returnsVoid(node: FunctionDeclaration): boolean {
   return toString(node.signature.returnType) === "void";
@@ -46,11 +55,16 @@ function isField(mem: DeclarationStatement) {
   return mem.kind == NodeKind.FIELDDECLARATION;
 }
 
+function isMethodDeclaration(mem: Node): bool {
+  return mem.kind == NodeKind.METHODDECLARATION;
+}
+
 // TODO: Extract this into separate module, preferrable pluggable
 export class JSONBindingsBuilder extends BaseVisitor {
   private sb: string[] = [];
   private exportedClasses: Map<string, ClassDeclaration> = new Map();
   wrappedFuncs: Set<string> = new Set();
+  private ORMMethods: Map<MethodDeclaration, ClassDeclaration> = new Map();
 
   static build(parser: Parser, source: Source): string {
     return new JSONBindingsBuilder().build(source);
@@ -64,7 +78,27 @@ export class JSONBindingsBuilder extends BaseVisitor {
     if (!this.exportedClasses.has(toString(node.name))) {
       this.exportedClasses.set(toString(node.name), node);
     }
+    if (node.decorators && node.decorators.some(isDecorator)) {
+      node.members
+      .filter(isMethodDeclaration)
+      .forEach((method: MethodDeclaration) => {
+        this.ORMMethods.set(method, node);
+      });
+    }
+
     super.visitClassDeclaration(node);
+  }
+
+  visitMethodDeclaration(node: MethodDeclaration): void {
+    if (this.wrappedFuncs.has(toString(node.name)) ||
+       !this.ORMMethods.has(node)) {
+        super.visitMethodDeclaration(node);
+        return;
+    }
+    this.generateWrapperFunction(node);
+    this.wrappedFuncs.add(toString(node.name));
+    super.visit(node);
+    
   }
 
   visitFunctionDeclaration(node: FunctionDeclaration): void {
@@ -98,15 +132,34 @@ export class JSONBindingsBuilder extends BaseVisitor {
       .join("|");
     let hasNull = toString(returnType).includes("null");
     let name = func.name.symbol;
-
-    this.sb.push(`function __wrapper_${name}(): void {`);
+    const isORM = this.ORMMethods.has(func);
+    const _class = this.ORMMethods.get(func);
+    const className = ( _class && this.typeName(_class)) || "";
+    const instanceName = `__${className.toLocaleLowerCase()}`
+    const funcPrefix = isORM ? className : "__wrapper";
+    let fullName = isORM ? `${instanceName}.${name}` : name;
+    if (name == "constructor") {
+      name = "init";
+      fullName = "new " + className;
+    }
+    const isInit = name == "init";
+    this.sb.push(`function ${funcPrefix}_${name}(): void {`);
+    if (isORM){
+      if (isInit) {
+        this.sb.push(`  if (storage.hasKey("${instanceName}")) {
+    return;
+  }`)
+      } else {
+        this.sb.push(`  ${instanceName} = storage.get<${className}>("${instanceName}");`)
+      }
+    }
     if (params.length > 0) {
       this.sb.push(`  const obj = getInput();`);
     }
     if (toString(returnType) !== "void") {
-      this.sb.push(`  let result: ${toString(returnType)} = ${name}(`);
+      this.sb.push(`  let result: ${isInit ? className : toString(returnType)} = ${fullName}(`);
     } else {
-      this.sb.push(`  ${name}(`);
+      this.sb.push(`  ${fullName}(`);
     }
     if (params.length > 0) {
       this.sb[this.sb.length - 1] += params
@@ -114,13 +167,16 @@ export class JSONBindingsBuilder extends BaseVisitor {
         .join(", ");
     }
     this.sb[this.sb.length - 1] += ");";
-    if (toString(returnType) !== "void") {
+    if (!isInit && toString(returnType) !== "void") {
       this.sb.push(`  const val = encode<${returnTypeName}>(${hasNull ? `changetype<${returnTypeName}>(result)` : "result"});
   value_return(val.byteLength, <usize>val.buffer);`);
     }
-    this.sb.push(`}
-export { __wrapper_${name} as ${name} }`);
-  }
+    if (!isORM) {
+      this.sb.push(`}\nexport { __wrapper_${name} as ${name} }`);
+    } else {
+      this.sb.push(`  storage.set<${className}>("${instanceName}", ${instanceName});\n}`);
+    }
+}
 
   private typeName(type: TypeNode | ClassDeclaration): string {
     if (!isClass(type)) {
@@ -189,10 +245,20 @@ export { __wrapper_${name} as ${name} }`);
     return this._encode().toString();
   }
 }`;
+  let varName = "__" + className.toLocaleLowerCase();
+  if (_class.decorators && _class.decorators.some(isDecorator)) {
+    str += `    
+let ${varName}: ${className};
+
+if (storage.hasKey("${varName}")) {
+  ${varName} = storage.get<${className}>("${varName}")!;
+}
+`
+  }
       }
       return str;
     });
-    return sourceText.concat(this.sb).join("\n");
+    return 'import {storage} from "near-runtime-ts";\n' + sourceText.concat(this.sb).join("\n");
   }
 }
 
@@ -226,3 +292,4 @@ function createEncodeStatements(_class: ClassDeclaration): string[] {
       return `encode<${T}, JSONEncoder>(this.${name}, "${name}", encoder);`;
     });
 }
+
