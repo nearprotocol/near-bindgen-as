@@ -1,6 +1,7 @@
 import { Transform, Parser, Program, Source, Module } from "./ast";
-import { JSONBindingsBuilder, isEntry } from "./JSONBuilder";
+import { JSONBindingsBuilder } from "./JSONBuilder";
 import { TypeChecker } from "./typeChecker";
+import { isEntry } from "./utils";
 
 class JSONTransformer extends Transform {
   parser: Parser;
@@ -20,9 +21,7 @@ class JSONTransformer extends Transform {
     JSONTransformer.isTest = files.map(source => source.normalizedPath).some(path => path.includes("spec"));
     // Visit each file
     files.forEach(source => {
-      let writeOut = source.text
-        .substr(0, source.text.indexOf("\n"))
-        .includes("out");
+      let writeOut = /\/\/.*@nearfile .*out/.test(source.text);
       // Remove from logs in parser
       parser.donelog.delete(source.internalPath);
       parser.seenlog.delete(source.internalPath);
@@ -44,10 +43,9 @@ class JSONTransformer extends Transform {
     });
 
     // Add needed entry file if bundled with webpack so it doesn't have to be passed in later
-    if (BUNDLE) {
-      const libSource = BUNDLE["nearEntry"];
-      this.parser.parseFile(libSource, "nearFile", true);
-    }
+    //@ts-ignore __dirname exists
+    let entryFileText = `import "near-bindgen-as";`
+    this.parser.parseFile(entryFileText, "nearFile", true);
     if (!JSONTransformer.isTest){
       TypeChecker.check(parser);
     }

@@ -6,7 +6,8 @@ compile("assembly/test.ts", // input file
         [
         //   "-O1",            // Optional arguments
         "--debug",
-        "--measure"
+        "--measure",
+        "--explicitStart",
         ], {verbose: true});
 
 

@@ -53,6 +53,8 @@ async function loadModule(path) {
     let inputJson = null;
     let outputJson = null;
     let module;
+    let registers = new Array(10);
+    let storage = new Map();
     let mem = { get U8() {
                   return new Uint8Array(module.memory.buffer);
     }}
@@ -74,27 +76,49 @@ async function loadModule(path) {
             },
             log_utf8(len, ptr) {
                 if (module) {
-                    str = UTF8toStr(readBuffer(toNum(len), toNum(ptr)));
+                    str = readUTF8(len, ptr);
                 }
                 console.log(str || "Failed to read string");
             },
-            read_register(register_id, ptr) {
-                copyToPtr(inputJson, toNum(ptr))
+            read_register(id, ptr) {
+                copyToPtr(id, ptr)
             },
-            register_len(register_id) {
-                return BigInt(inputJson.length)
+            register_len(id) {
+                return BigInt(registers[id].length)
             },
             value_return(valLen, valPtr) {
-                outputJson = readBuffer(toNum(valLen), toNum(valPtr));
+                outputJson = readBuffer(valLen, valPtr);
             },
             input(register_id) {
-
+              registers[toNum(register_id)] = inputJson;
+            },
+            storage_has_key(len, ptr) {
+              return BigInt(storage.has(readUTF8(len, ptr)));
+            },
+            storage_read(len, ptr, id) {
+              const key = readUTF8(len, ptr);
+              if (!storage.has(key)) {
+                throw Error("key " + key + " does not exist!");
+              }
+              registers[toNum(id)] = storage.get(key);
+              return BigInt(1);
+            },
+            storage_write(key_len, key_ptr, data_len, data_ptr) {
+              storage.set(readUTF8(key_len, key_ptr), readBuffer(data_len, data_ptr));
+              return BigInt(1);
+            },
+            storage_remove(key_len, key_ptr, register_id) {
+              const key = readUTF8(key_len, key_ptr);
+              registers[register_id] = key
+              storage.delete(key);
+              return BigInt(!storage.has(key));
             }
         }
     });
 
     function setInputJson(json) {
         inputJson = Buffer.from(JSON.stringify(json || null));
+        // registers[0] = inputJson;
     }
 
     function getOutputJson() {
@@ -102,19 +126,26 @@ async function loadModule(path) {
         return JSON.parse(Buffer.from(outputJson).toString());
     }
 
-    function copyToPtr(fromBuf, toPtr) {
-        for (let i = 0; i < fromBuf.length; i++) {
-            mem.U8[toPtr + i] = fromBuf[i];
-        }
+    function copyToPtr(id, ptr) {
+      fromBuf = registers[toNum(id)];
+      toPtr = toNum(ptr);
+      for (let i = 0; i < fromBuf.length; i++) {
+          mem.U8[toPtr + i] = fromBuf[i];
+      }
     }
 
-    function readBuffer(valLen, valPtr) {
-        const result = new Uint8Array(valLen);
-        for (let i = 0; i < valLen; i++) {
-            result[i] = mem.U8[valPtr + i];
-        }
+    function readBuffer(len, ptr) {
+      let valLen = toNum(len);
+      let valPtr = toNum(ptr);
+      const result = new Uint8Array(valLen);
+      for (let i = 0; i < valLen; i++) {
+          result[i] = mem.U8[valPtr + i];
+      }
+      return result;
+    }
 
-        return result;
+    function readUTF8(len, ptr) {
+      return UTF8toStr(readBuffer(len, ptr));
     }
 
     let wrapped = {};
@@ -148,6 +179,7 @@ async function testFloatDetection(file){
 
 (async function() {
     const module = await loadModule('./out/test.wasm');
+    module.__start()
     await module.runTest();
     assert.deepEqual(await module.convertFoobars({ foobars: [] }), []);
     assert.deepEqual(
@@ -273,6 +305,17 @@ async function testFloatDetection(file){
       }
     );
     assert.deepEqual(await module.classAndNull(), null);
+    await module.Contract_init("name");
+    assert.equal(await module.Contract_getName(), "name");
+    await module.Contract_delete();
+    try {
+      await module.Contract_getName();
+    } catch (e) {
+      assert.equal(e.message, "key __contract does not exist!");
+    }
+    await module.Contract_init("name2");
+    assert.equal(await module.Contract_getName(), "name2");
+
 
     await testFloatDetection("assembly/f32.ts");
     await testFloatDetection("assembly/f64.ts");

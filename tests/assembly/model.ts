@@ -1,5 +1,5 @@
 
-//@nearfile out
+// @nearfile out
 
 import {u128} from "bignum";
 
@@ -57,4 +57,16 @@ export class MyCallbackResult {
 
 export class Generic<T> {
     value: T;
+}
+
+@orm
+export class Contract {
+    private _name: string;
+    constructor(name: string) {
+        this._name = name;
+    }
+
+    getName(): string {
+        return this._name;
+    }
 }
