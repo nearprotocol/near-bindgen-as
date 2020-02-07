@@ -1,63 +1,30 @@
 import {
-  Node,
   FunctionDeclaration,
-  NodeKind,
   Source,
-  SourceKind,
   TypeNode,
   ClassDeclaration,
-  DeclarationStatement,
   Parser,
   CommonFlags,
   FieldDeclaration,
-  DecoratorNode,
-  IdentifierExpression,
   ParameterNode,
+  MethodDeclaration,
+  IdentifierExpression,
+  SourceKind,
 } from "./ast";
 import { ASTBuilder } from "./ASTBuilder";
 import { BaseVisitor } from "./base";
-import { MethodDeclaration } from "assemblyscript";
-const DECORATOR_NAME = "orm";
-
-function isDecorator(node: DecoratorNode): bool {
-  return node.name.kind == NodeKind.IDENTIFIER &&
-         (<IdentifierExpression>node.name).text == DECORATOR_NAME;
-}
-
-function returnsVoid(node: FunctionDeclaration): boolean {
-  return toString(node.signature.returnType) === "void";
-}
-
-function numOfParameters(node: FunctionDeclaration): number {
-  return node.signature.parameters.length;
-}
-
-function hasNearDecorator(stmt: Source): boolean {
-  return stmt.text.includes("@nearfile") || isEntry(stmt);
-}
-
-function toString(node: Node): string {
-  return ASTBuilder.build(node);
-}
-
-export function isEntry(source: Source | Node): boolean {
-  let _source = <Source>(
-    (source.kind == NodeKind.SOURCE ? source : source.range.source)
-  );
-  return _source.sourceKind == SourceKind.USER_ENTRY;
-}
-
-function isClass(type: Node): boolean {
-  return type.kind == NodeKind.CLASSDECLARATION;
-}
-
-function isField(mem: DeclarationStatement) {
-  return mem.kind == NodeKind.FIELDDECLARATION;
-}
-
-function isMethodDeclaration(mem: Node): bool {
-  return mem.kind == NodeKind.METHODDECLARATION;
-}
+import {
+  hasNearDecorator,
+  isDecorator,
+  isMethodDeclaration,
+  isEntry, 
+  numOfParameters, 
+  returnsVoid, 
+  isClass, 
+  isField, 
+  toString,
+  DECORATOR_NAME
+} from "./utils";
 
 // TODO: Extract this into separate module, preferrable pluggable
 export class JSONBindingsBuilder extends BaseVisitor {
@@ -65,6 +32,7 @@ export class JSONBindingsBuilder extends BaseVisitor {
   private exportedClasses: Map<string, ClassDeclaration> = new Map();
   wrappedFuncs: Set<string> = new Set();
   private ORMMethods: Map<MethodDeclaration, ClassDeclaration> = new Map();
+  static entryFile: string[] = [];
 
   static build(parser: Parser, source: Source): string {
     return new JSONBindingsBuilder().build(source);
@@ -143,14 +111,14 @@ export class JSONBindingsBuilder extends BaseVisitor {
       fullName = "new " + className;
     }
     const isInit = name == "init";
-    this.sb.push(`function ${funcPrefix}_${name}(): void {`);
+    this.sb.push(`${isORM ? "export " : "" }function ${funcPrefix}_${name}(): void {`);
     if (isORM){
       if (isInit) {
         this.sb.push(`  if (storage.hasKey("${instanceName}")) {
     return;
   }`)
       } else {
-        this.sb.push(`  ${instanceName} = storage.get<${className}>("${instanceName}");`)
+        this.sb.push(`  ${instanceName} = storage.get<${className}>("${instanceName}")!;`)
       }
     }
     if (params.length > 0) {
@@ -174,7 +142,7 @@ export class JSONBindingsBuilder extends BaseVisitor {
     if (!isORM) {
       this.sb.push(`}\nexport { __wrapper_${name} as ${name} }`);
     } else {
-      this.sb.push(`  storage.set<${className}>("${instanceName}", ${instanceName});\n}`);
+      this.sb.push(`  storage.set<${className}>("${instanceName}", ${isInit ? "result" : instanceName});\n}`);
     }
 }
 
@@ -205,6 +173,8 @@ export class JSONBindingsBuilder extends BaseVisitor {
           throw new Error("All Fields must have explict type declaration.");
         }
         let className = this.typeName(_class);
+        let genericArgs = _class.typeParameters || [];
+        let genericString = genericArgs.map(t => toString(t)).join(", ")
         str += `
   decode<V = Uint8Array>(buf: V): ${className} {
     let json: JSON.Obj;
@@ -217,7 +187,7 @@ export class JSONBindingsBuilder extends BaseVisitor {
     return this._decode(json);
   }
 
-  static decode(buf: Uint8Array): ${className} {
+  static decode${_class.isGeneric ? "<" + genericString + ">":""}(buf: Uint8Array): ${className} {
     return decode<${className}>(buf);
   }
 
@@ -245,20 +215,24 @@ export class JSONBindingsBuilder extends BaseVisitor {
     return this._encode().toString();
   }
 }`;
-  let varName = "__" + className.toLocaleLowerCase();
-  if (_class.decorators && _class.decorators.some(isDecorator)) {
-    str += `    
+    let varName = "__" + className.toLocaleLowerCase();
+    if (_class.decorators && _class.decorators.some(isDecorator)) {
+      str += `    
 let ${varName}: ${className};
 
 if (storage.hasKey("${varName}")) {
   ${varName} = storage.get<${className}>("${varName}")!;
 }
-`
-  }
+`;
+    }
       }
       return str;
     });
-    return 'import {storage} from "near-runtime-ts";\n' + sourceText.concat(this.sb).join("\n");
+    if (this.ORMMethods.size > 0){
+      source.sourceKind = SourceKind.USER_ENTRY;
+      sourceText.unshift('import { storage } from "near-runtime-ts";\n');
+    }
+    return  sourceText.concat(this.sb).join("\n");
   }
 }
 

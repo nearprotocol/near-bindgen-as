@@ -4,7 +4,7 @@
   "description": "Tests for near bindings",
   "main": "test.js",
   "scripts": {
-    "build": "../node_modules/.bin/asc assembly/test.ts --transform ../src/index.ts --validate --runtime none --binaryFile out/test.wasm --textFile out/test.wat --runPasses inlining-optimizing,dce --debug",
+    "build": "../node_modules/.bin/asc assembly/test.ts --explicitStart --transform ../src/index.ts --validate --runtime none --binaryFile out/test.wasm --textFile out/test.wat --debug",
     "test": "yarn build && yarn test:wasm",
     "test:ci": "yarn test:asconfig && yarn test",
     "test:wasm": "node --experimental-wasm-bigint ./test.js",

@@ -1,4 +1,5 @@
-import {storage} from "near-runtime-ts";
+import { storage } from "near-runtime-ts";
+
 import {
   u128
 } from "bignum"
@@ -379,7 +380,7 @@ export class Generic<T> {
     return this._decode(json);
   }
 
-  static decode(buf: Uint8Array): Generic<T> {
+  static decode<T>(buf: Uint8Array): Generic<T> {
     return decode<Generic<T>>(buf);
   }
 
@@ -462,16 +463,16 @@ if (storage.hasKey("__contract")) {
   __contract = storage.get<Contract>("__contract")!;
 }
 
-function Contract_init(): void {
+export function Contract_init(): void {
   if (storage.hasKey("__contract")) {
     return;
   }
   const obj = getInput();
   let result: Contract = new Contract(decode<string, JSON.Obj>(obj, "name"));
-  storage.set<Contract>("__contract", __contract);
+  storage.set<Contract>("__contract", result);
 }
-function Contract_getName(): void {
-  __contract = storage.get<Contract>("__contract");
+export function Contract_getName(): void {
+  __contract = storage.get<Contract>("__contract")!;
   let result: string = __contract.getName();
   const val = encode<string>(result);
   value_return(val.byteLength, <usize>val.buffer);
