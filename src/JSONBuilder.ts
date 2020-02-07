@@ -223,6 +223,11 @@ let ${varName}: ${className};
 if (storage.hasKey("${varName}")) {
   ${varName} = storage.get<${className}>("${varName}")!;
 }
+
+export function ${className}_delete(): bool {
+  storage.delete("${varName}");
+  return !storage.hasKey("${varName}");
+}
 `;
     }
       }

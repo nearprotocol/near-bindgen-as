@@ -463,6 +463,11 @@ if (storage.hasKey("__contract")) {
   __contract = storage.get<Contract>("__contract")!;
 }
 
+export function Contract_delete(): bool {
+  storage.delete("__contract");
+  return !storage.hasKey("__contract");
+}
+
 export function Contract_init(): void {
   if (storage.hasKey("__contract")) {
     return;

@@ -35,6 +35,7 @@
  (import "env" "input" (func $~lib/near-runtime-ts/runtime_api/runtime_api.input (param i64)))
  (import "env" "panic" (func $~lib/near-runtime-ts/runtime_api/runtime_api.panic))
  (import "env" "value_return" (func $~lib/near-runtime-ts/runtime_api/runtime_api.value_return (param i64 i64)))
+ (import "env" "storage_remove" (func $~lib/near-runtime-ts/runtime_api/runtime_api.storage_remove (param i64 i64 i64) (result i64)))
  (import "env" "storage_write" (func $~lib/near-runtime-ts/runtime_api/runtime_api.storage_write (param i64 i64 i64 i64 i64) (result i64)))
  (memory $0 1)
  (data (i32.const 8) "\08\00\00\00\01\00\00\00\01\00\00\00\08\00\00\00:\00l\00e\00n\00")
@@ -387,9 +388,10 @@
  (export "Contract#serialize" (func $assembly/model/Contract#serialize))
  (export "Contract#toJSON" (func $assembly/model/Contract#toJSON))
  (export "Contract.decode" (func $assembly/model/Contract.decode))
+ (export "Contract_delete" (func $assembly/model/Contract_delete))
  (export "Contract_init" (func $assembly/model/Contract_init))
  (export "Contract_getName" (func $assembly/model/Contract_getName))
- (func $~lib/rt/stub/maybeGrowMemory (; 10 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/rt/stub/maybeGrowMemory (; 11 ;) (type $FUNCSIG$vi) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -443,7 +445,7 @@
   local.get $0
   global.set $~lib/rt/stub/offset
  )
- (func $~lib/rt/stub/__alloc (; 11 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/stub/__alloc (; 12 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -496,10 +498,10 @@
   i32.store offset=12
   local.get $2
  )
- (func $~lib/rt/stub/__retain (; 12 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/rt/stub/__retain (; 13 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
  )
- (func $~lib/near-runtime-ts/storage/Storage#constructor (; 13 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-runtime-ts/storage/Storage#constructor (; 14 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -511,7 +513,7 @@
   end
   local.get $0
  )
- (func $start:~lib/near-runtime-ts/storage (; 14 ;) (type $FUNCSIG$v)
+ (func $start:~lib/near-runtime-ts/storage (; 15 ;) (type $FUNCSIG$v)
   global.get $~lib/heap/__heap_base
   i32.const 15
   i32.add
@@ -526,7 +528,7 @@
   call $~lib/near-runtime-ts/storage/Storage#constructor
   global.set $~lib/near-runtime-ts/storage/storage
  )
- (func $~lib/near-runtime-ts/contract/Context#constructor (; 15 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-runtime-ts/contract/Context#constructor (; 16 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -538,19 +540,19 @@
   end
   local.get $0
  )
- (func $start:~lib/near-runtime-ts/contract (; 16 ;) (type $FUNCSIG$v)
+ (func $start:~lib/near-runtime-ts/contract (; 17 ;) (type $FUNCSIG$v)
   i32.const 0
   call $~lib/near-runtime-ts/contract/Context#constructor
   global.set $~lib/near-runtime-ts/contract/context
  )
- (func $start:~lib/near-runtime-ts/index (; 17 ;) (type $FUNCSIG$v)
+ (func $start:~lib/near-runtime-ts/index (; 18 ;) (type $FUNCSIG$v)
   call $start:~lib/near-runtime-ts/storage
   call $start:~lib/near-runtime-ts/contract
  )
- (func $~lib/rt/stub/__release (; 18 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/rt/stub/__release (; 19 ;) (type $FUNCSIG$vi) (param $0 i32)
   nop
  )
- (func $~lib/string/String.UTF8.byteLength (; 19 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.UTF8.byteLength (; 20 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -673,7 +675,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $~lib/memory/memory.fill (; 20 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.fill (; 21 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -937,7 +939,7 @@
    end
   end
  )
- (func $~lib/arraybuffer/ArrayBufferView#constructor (; 21 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBufferView#constructor (; 22 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1008,7 +1010,7 @@
   i32.store offset=8
   local.get $0
  )
- (func $~lib/typedarray/Uint8Array#constructor (; 22 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#constructor (; 23 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -1024,7 +1026,7 @@
   local.set $0
   local.get $0
  )
- (func $~lib/util/memory/memcpy (; 23 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/memory/memcpy (; 24 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2052,7 +2054,7 @@
    i32.store8
   end
  )
- (func $~lib/memory/memory.copy (; 24 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.copy (; 25 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2277,7 +2279,7 @@
    end
   end
  )
- (func $~lib/rt/stub/__realloc (; 25 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/stub/__realloc (; 26 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2400,7 +2402,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/string/String.UTF8.encode (; 26 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.UTF8.encode (; 27 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2652,7 +2654,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-runtime-ts/util/util.toUTF8 (; 27 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-runtime-ts/util/util.toUTF8 (; 28 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -2669,7 +2671,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-runtime-ts/util/util.stringToBytes (; 28 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-runtime-ts/util/util.stringToBytes (; 29 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -2699,7 +2701,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-runtime-ts/storage/Storage#contains (; 29 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-runtime-ts/storage/Storage#contains (; 30 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -2724,7 +2726,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-runtime-ts/util/util.read_register (; 30 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/near-runtime-ts/util/util.read_register (; 31 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   (local $1 i64)
   (local $2 i32)
   local.get $0
@@ -2742,7 +2744,7 @@
   call $~lib/near-runtime-ts/runtime_api/runtime_api.read_register
   local.get $2
  )
- (func $~lib/near-runtime-ts/storage/Storage#_internalReadBytes (; 31 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-runtime-ts/storage/Storage#_internalReadBytes (; 32 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -2787,7 +2789,7 @@
   end
   unreachable
  )
- (func $~lib/near-runtime-ts/storage/Storage#getBytes (; 32 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-runtime-ts/storage/Storage#getBytes (; 33 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -2800,7 +2802,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/string/String#get:length (; 33 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String#get:length (; 34 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 16
   i32.sub
@@ -2808,7 +2810,7 @@
   i32.const 1
   i32.shr_u
  )
- (func $~lib/string/String#charCodeAt (; 34 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charCodeAt (; 35 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   call $~lib/string/String#get:length
@@ -2824,7 +2826,7 @@
   i32.add
   i32.load16_u
  )
- (func $start:~lib/assemblyscript-json/decoder (; 35 ;) (type $FUNCSIG$v)
+ (func $start:~lib/assemblyscript-json/decoder (; 36 ;) (type $FUNCSIG$v)
   i32.const 880
   i32.const 0
   call $~lib/string/String#charCodeAt
@@ -2842,7 +2844,7 @@
   call $~lib/string/String#charCodeAt
   global.set $~lib/assemblyscript-json/decoder/CHAR_A_LOWER
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 36 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 37 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -2864,7 +2866,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/Handler#constructor (; 37 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#constructor (; 38 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -2881,7 +2883,7 @@
   i32.store
   local.get $0
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#constructor (; 38 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#constructor (; 39 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -2923,7 +2925,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $start:~lib/assemblyscript-json/JSON (; 39 ;) (type $FUNCSIG$v)
+ (func $start:~lib/assemblyscript-json/JSON (; 40 ;) (type $FUNCSIG$v)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/Handler#constructor
   global.set $~lib/assemblyscript-json/JSON/_JSON.handler
@@ -2932,17 +2934,17 @@
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#constructor
   global.set $~lib/assemblyscript-json/JSON/_JSON.decoder
  )
- (func $start:~lib/assemblyscript-json/index (; 40 ;) (type $FUNCSIG$v)
+ (func $start:~lib/assemblyscript-json/index (; 41 ;) (type $FUNCSIG$v)
   call $start:~lib/assemblyscript-json/decoder
   call $start:~lib/assemblyscript-json/JSON
  )
- (func $start:~lib/near-bindgen-as/index (; 41 ;) (type $FUNCSIG$v)
+ (func $start:~lib/near-bindgen-as/index (; 42 ;) (type $FUNCSIG$v)
   call $start:~lib/assemblyscript-json/index
   global.get $~lib/near-runtime-ts/storage/storage
   call $~lib/rt/stub/__retain
   global.set $~lib/near-bindgen-as/index/storage
  )
- (func $~lib/assemblyscript-json/decoder/DecoderState#constructor (; 42 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/DecoderState#constructor (; 43 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -2970,11 +2972,11 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/typedarray/Uint8Array#get:length (; 43 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#get:length (; 44 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=8
  )
- (func $~lib/typedarray/Uint8Array#__get (; 44 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#__get (; 45 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -2993,7 +2995,7 @@
   i32.add
   i32.load8_u
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar (; 45 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar (; 46 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   i32.load offset=4
@@ -3014,7 +3016,7 @@
   i32.load offset=4
   call $~lib/typedarray/Uint8Array#__get
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#isWhitespace (; 46 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#isWhitespace (; 47 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   i32.const 9
   i32.eq
@@ -3040,7 +3042,7 @@
    i32.eq
   end
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readChar (; 47 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readChar (; 48 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.load offset=4
@@ -3074,7 +3076,7 @@
   local.get $1
   call $~lib/typedarray/Uint8Array#__get
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace (; 48 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace (; 49 ;) (type $FUNCSIG$vi) (param $0 i32)
   block $break|0
    loop $continue|0
     local.get $0
@@ -3091,7 +3093,7 @@
    unreachable
   end
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value#constructor (; 49 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value#constructor (; 50 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -3103,7 +3105,7 @@
   end
   local.get $0
  )
- (func $~lib/arraybuffer/ArrayBuffer#constructor (; 50 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#constructor (; 51 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   i32.const 1073741808
@@ -3127,7 +3129,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#clear (; 51 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#clear (; 52 ;) (type $FUNCSIG$vi) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -3167,7 +3169,7 @@
   i32.const 0
   i32.store offset=20
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 52 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 53 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -3199,7 +3201,7 @@
   call $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#clear
   local.get $0
  )
- (func $~lib/array/Array<~lib/string/String>#constructor (; 53 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#constructor (; 54 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -3221,7 +3223,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#constructor (; 54 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#constructor (; 55 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -3264,15 +3266,15 @@
   i32.store offset=4
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Object (; 55 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Object (; 56 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/JSON.Obj#constructor
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length (; 56 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length (; 57 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/ensureSize (; 57 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/ensureSize (; 58 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -3335,7 +3337,7 @@
    i32.store offset=8
   end
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#push (; 58 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#push (; 59 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3371,7 +3373,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__unchecked_get (; 59 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__unchecked_get (; 60 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -3381,7 +3383,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__get (; 60 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__get (; 61 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -3413,7 +3415,7 @@
   end
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/Handler#get:peek (; 61 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#get:peek (; 62 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   local.get $0
@@ -3423,7 +3425,7 @@
   i32.sub
   call $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__get
  )
- (func $~lib/rt/__instanceof (; 62 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/__instanceof (; 63 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -3460,7 +3462,7 @@
   end
   i32.const 0
  )
- (func $~lib/util/hash/hashStr (; 63 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/hash/hashStr (; 64 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3511,7 +3513,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/util/string/compareImpl (; 64 ;) (type $FUNCSIG$iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $~lib/util/string/compareImpl (; 65 ;) (type $FUNCSIG$iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -3631,7 +3633,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/string/String.__eq (; 65 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__eq (; 66 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -3704,7 +3706,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#find (; 66 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#find (; 67 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -3764,7 +3766,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#has (; 67 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#has (; 68 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -3792,7 +3794,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/array/Array<~lib/string/String>#push (; 68 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#push (; 69 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3828,7 +3830,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#rehash (; 69 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#rehash (; 70 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3990,7 +3992,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#set (; 70 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#set (; 71 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4121,7 +4123,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#_set (; 71 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#_set (; 72 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -4150,7 +4152,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#set<~lib/assemblyscript-json/JSON/JSON.Value> (; 72 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#set<~lib/assemblyscript-json/JSON/JSON.Value> (; 73 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -4167,7 +4169,7 @@
   call $~lib/rt/stub/__release
   return
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Arr#push (; 73 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Arr#push (; 74 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -4179,7 +4181,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/Handler#addValue (; 74 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#addValue (; 75 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4267,7 +4269,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/Handler#pushObject (; 75 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#pushObject (; 76 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -4292,14 +4294,14 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/arraybuffer/ArrayBufferView#get:byteOffset (; 76 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBufferView#get:byteOffset (; 77 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $0
   i32.load
   i32.sub
  )
- (func $~lib/assemblyscript-json/util/index/Buffer.getDataPtr (; 77 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/util/index/Buffer.getDataPtr (; 78 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -4314,7 +4316,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/string/String.UTF8.decodeUnsafe (; 78 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String.UTF8.decodeUnsafe (; 79 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4543,7 +4545,7 @@
   call $~lib/rt/stub/__realloc
   call $~lib/rt/stub/__retain
  )
- (func $~lib/assemblyscript-json/util/index/Buffer.readString (; 79 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/assemblyscript-json/util/index/Buffer.readString (; 80 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -4562,7 +4564,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/decoder/DecoderState#readString (; 80 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/DecoderState#readString (; 81 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $0
   i32.load offset=8
   local.get $1
@@ -4571,7 +4573,7 @@
   i32.sub
   call $~lib/assemblyscript-json/util/index/Buffer.readString
  )
- (func $~lib/assemblyscript-json/decoder/DecoderState#readString|trampoline (; 81 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/DecoderState#readString|trampoline (; 82 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -4591,11 +4593,11 @@
   local.get $2
   call $~lib/assemblyscript-json/decoder/DecoderState#readString
  )
- (func $~lib/array/Array<~lib/string/String>#get:length (; 82 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#get:length (; 83 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/util/string/joinStringArray (; 83 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/util/string/joinStringArray (; 84 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4826,7 +4828,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $~lib/array/Array<~lib/string/String>#join (; 84 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#join (; 85 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4849,7 +4851,7 @@
   local.get $4
   return
  )
- (func $~lib/rt/__allocArray (; 85 ;) (type $FUNCSIG$iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $~lib/rt/__allocArray (; 86 ;) (type $FUNCSIG$iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -4887,7 +4889,7 @@
   end
   local.get $4
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readHexDigit (; 86 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readHexDigit (; 87 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4971,7 +4973,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/string/String.fromCodePoint (; 87 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String.fromCodePoint (; 88 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5032,7 +5034,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/string/String.fromCharCode (; 88 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.fromCharCode (; 89 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -5057,7 +5059,7 @@
   local.get $3
   call $~lib/rt/stub/__retain
  )
- (func $~lib/string/String.fromCharCode|trampoline (; 89 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.fromCharCode|trampoline (; 90 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -5075,7 +5077,7 @@
   local.get $1
   call $~lib/string/String.fromCharCode
  )
- (func $~lib/string/String#concat (; 90 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#concat (; 91 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5151,7 +5153,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/string/String.__concat (; 91 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__concat (; 92 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -5174,7 +5176,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readEscapedChar (; 92 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readEscapedChar (; 93 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5317,7 +5319,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readString (; 93 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readString (; 94 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5449,7 +5451,7 @@
   end
   unreachable
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseKey (; 94 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseKey (; 95 ;) (type $FUNCSIG$vi) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -5483,7 +5485,7 @@
    unreachable
   end
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#pop (; 95 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#pop (; 96 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -5517,7 +5519,7 @@
   i32.store offset=12
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/Handler#popObject (; 96 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#popObject (; 97 ;) (type $FUNCSIG$vi) (param $0 i32)
   local.get $0
   i32.load
   call $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length
@@ -5530,7 +5532,7 @@
    call $~lib/rt/stub/__release
   end
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseObject (; 97 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseObject (; 98 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5645,7 +5647,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Arr#constructor (; 98 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Arr#constructor (; 99 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -5675,11 +5677,11 @@
   i32.store
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Array (; 99 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Array (; 100 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/JSON.Arr#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#pushArray (; 100 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#pushArray (; 101 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -5717,7 +5719,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/JSON/Handler#popArray (; 101 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#popArray (; 102 ;) (type $FUNCSIG$vi) (param $0 i32)
   local.get $0
   i32.load
   call $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length
@@ -5730,7 +5732,7 @@
    call $~lib/rt/stub/__release
   end
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseArray (; 102 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseArray (; 103 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5843,7 +5845,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Str#constructor (; 103 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Str#constructor (; 104 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -5866,7 +5868,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.String (; 104 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.String (; 105 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -5879,7 +5881,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setString (; 105 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#setString (; 106 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -5901,7 +5903,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseString (; 106 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseString (; 107 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -5929,7 +5931,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readAndAssert (; 107 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readAndAssert (; 108 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5982,7 +5984,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Bool#constructor (; 108 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Bool#constructor (; 109 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -5999,12 +6001,12 @@
   i32.store8
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Bool (; 109 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Bool (; 110 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   i32.const 0
   local.get $0
   call $~lib/assemblyscript-json/JSON/JSON.Bool#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setBoolean (; 110 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#setBoolean (; 111 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -6021,7 +6023,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseBoolean (; 111 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseBoolean (; 112 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar
   i32.const 824
@@ -6064,7 +6066,7 @@
   end
   i32.const 0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Num#constructor (; 112 ;) (type $FUNCSIG$iij) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Num#constructor (; 113 ;) (type $FUNCSIG$iij) (param $0 i32) (param $1 i64) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -6081,12 +6083,12 @@
   i64.store
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Number (; 113 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Number (; 114 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   i32.const 0
   local.get $0
   call $~lib/assemblyscript-json/JSON/JSON.Num#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setInteger (; 114 ;) (type $FUNCSIG$viij) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $~lib/assemblyscript-json/JSON/Handler#setInteger (; 115 ;) (type $FUNCSIG$viij) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -6103,7 +6105,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNumber (; 115 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNumber (; 116 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i64)
   (local $2 i64)
   (local $3 i32)
@@ -6183,7 +6185,7 @@
   end
   i32.const 0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Null#constructor (; 116 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Null#constructor (; 117 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -6197,11 +6199,11 @@
   local.set $0
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Null (; 117 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Null (; 118 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/JSON.Null#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setNull (; 118 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#setNull (; 119 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -6217,7 +6219,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNull (; 119 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNull (; 120 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar
   i32.const 856
@@ -6239,7 +6241,7 @@
   end
   i32.const 0
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseValue (; 120 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseValue (; 121 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace
@@ -6285,7 +6287,7 @@
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace
   local.get $1
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#deserialize (; 121 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#deserialize (; 122 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -6346,7 +6348,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/Handler#reset (; 122 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#reset (; 123 ;) (type $FUNCSIG$vi) (param $0 i32)
   block $break|0
    loop $continue|0
     local.get $0
@@ -6365,7 +6367,7 @@
    unreachable
   end
  )
- (func $~lib/assemblyscript-json/JSON/_JSON.parse<~lib/typedarray/Uint8Array> (; 123 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/_JSON.parse<~lib/typedarray/Uint8Array> (; 124 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6412,7 +6414,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/string/String.__ne (; 124 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__ne (; 125 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -6431,7 +6433,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#get (; 125 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#get (; 126 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6474,7 +6476,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#get (; 126 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#get (; 127 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -6502,7 +6504,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/Contract> (; 127 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/Contract> (; 128 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -6520,7 +6522,7 @@
    i32.const 0
   end
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#has (; 128 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#has (; 129 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -6534,7 +6536,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/string/String> (; 129 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/string/String> (; 130 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -6552,7 +6554,7 @@
    i32.const 1
   end
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj> (; 130 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj> (; 131 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6763,7 +6765,7 @@
   local.get $4
   return
  )
- (func $assembly/model/Contract#_decode (; 131 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Contract#_decode (; 132 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -6796,7 +6798,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/Contract#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 132 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Contract#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 133 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -6829,7 +6831,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/Contract,~lib/typedarray/Uint8Array> (; 133 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/Contract,~lib/typedarray/Uint8Array> (; 134 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -7075,7 +7077,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/near-runtime-ts/util/util.parseFromBytes<assembly/model/Contract> (; 134 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-runtime-ts/util/util.parseFromBytes<assembly/model/Contract> (; 135 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -7088,7 +7090,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/near-runtime-ts/storage/Storage#get<assembly/model/Contract> (; 135 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-runtime-ts/storage/Storage#get<assembly/model/Contract> (; 136 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -7127,7 +7129,7 @@
   local.get $4
   return
  )
- (func $start:assembly/model (; 136 ;) (type $FUNCSIG$v)
+ (func $start:assembly/model (; 137 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -7170,14 +7172,14 @@
    global.set $assembly/model/__contract
   end
  )
- (func $start:assembly/main (; 137 ;) (type $FUNCSIG$v)
+ (func $start:assembly/main (; 138 ;) (type $FUNCSIG$v)
   call $start:~lib/near-runtime-ts/index
   call $start:assembly/model
  )
- (func $start:assembly/test (; 138 ;) (type $FUNCSIG$v)
+ (func $start:assembly/test (; 139 ;) (type $FUNCSIG$v)
   call $start:assembly/main
  )
- (func $~lib/near-runtime-ts/logging/logging.log (; 139 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/near-runtime-ts/logging/logging.log (; 140 ;) (type $FUNCSIG$vi) (param $0 i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -7197,7 +7199,7 @@
   local.get $0
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/FooBar#constructor (; 140 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/FooBar#constructor (; 141 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -7252,7 +7254,7 @@
   i32.store offset=64
   local.get $0
  )
- (func $~lib/string/String#charAt (; 141 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charAt (; 142 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -7278,7 +7280,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/string/String#indexOf (; 142 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String#indexOf (; 143 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7369,7 +7371,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-runtime-ts/base64/base64.getByte64 (; 143 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-runtime-ts/base64/base64.getByte64 (; 144 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -7389,7 +7391,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/typedarray/Uint8Array#__set (; 144 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/typedarray/Uint8Array#__set (; 145 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -7409,7 +7411,7 @@
   local.get $2
   i32.store8
  )
- (func $~lib/near-runtime-ts/base64/base64.decode (; 145 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-runtime-ts/base64/base64.decode (; 146 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -7692,7 +7694,7 @@
   call $~lib/rt/stub/__release
   local.get $11
  )
- (func $~lib/bignum/integer/u128/u128#constructor (; 146 ;) (type $FUNCSIG$iijj) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
+ (func $~lib/bignum/integer/u128/u128#constructor (; 147 ;) (type $FUNCSIG$iijj) (param $0 i32) (param $1 i64) (param $2 i64) (result i32)
   local.get $0
   i32.eqz
   if
@@ -7710,7 +7712,7 @@
   i64.store offset=8
   local.get $0
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#constructor (; 147 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#constructor (; 148 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -7732,7 +7734,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__unchecked_set (; 148 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__unchecked_set (; 149 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   local.get $2
@@ -7762,7 +7764,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__set (; 149 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__set (; 150 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $2
   call $~lib/rt/stub/__retain
   drop
@@ -7803,7 +7805,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<i32>#constructor (; 150 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#constructor (; 151 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -7825,7 +7827,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/array/Array<i32>#push (; 151 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#push (; 152 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -7852,7 +7854,7 @@
   i32.store offset=12
   local.get $3
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#constructor (; 152 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#constructor (; 153 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -7899,7 +7901,7 @@
   drop
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/JSONEncoder#constructor (; 153 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/JSONEncoder#constructor (; 154 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -7914,11 +7916,11 @@
   local.set $0
   local.get $0
  )
- (func $~lib/array/Array<i32>#get:length (; 154 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<i32>#get:length (; 155 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<i32>#__unchecked_get (; 155 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#__unchecked_get (; 156 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -7927,7 +7929,7 @@
   i32.add
   i32.load
  )
- (func $~lib/array/Array<i32>#__get (; 156 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#__get (; 157 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -7947,7 +7949,7 @@
   local.set $2
   local.get $2
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#get:isFirstKey (; 157 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#get:isFirstKey (; 158 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   local.get $0
@@ -7957,7 +7959,7 @@
   i32.sub
   call $~lib/array/Array<i32>#__get
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#write (; 158 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#write (; 159 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -7969,7 +7971,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<i32>#__unchecked_set (; 159 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<i32>#__unchecked_set (; 160 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -7979,7 +7981,7 @@
   local.get $2
   i32.store
  )
- (func $~lib/array/Array<i32>#__set (; 160 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<i32>#__set (; 161 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=12
@@ -8013,7 +8015,7 @@
   local.get $2
   call $~lib/array/Array<i32>#__unchecked_set
  )
- (func $~lib/string/String#substring (; 161 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String#substring (; 162 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -8120,7 +8122,7 @@
   local.get $10
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/decimalCount32 (; 162 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/number/decimalCount32 (; 163 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 100000
@@ -8186,7 +8188,7 @@
   end
   unreachable
  )
- (func $~lib/util/number/utoa32_lut (; 163 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/number/utoa32_lut (; 164 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -8328,7 +8330,7 @@
    i32.store16
   end
  )
- (func $~lib/util/number/itoa32 (; 164 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/number/itoa32 (; 165 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -8383,16 +8385,16 @@
   local.get $3
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/itoa<i32> (; 165 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/number/itoa<i32> (; 166 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $~lib/util/number/itoa32
   return
  )
- (func $~lib/number/I32#toString (; 166 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/number/I32#toString (; 167 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $~lib/util/number/itoa<i32>
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeString (; 167 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeString (; 168 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8571,7 +8573,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeKey (; 168 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeKey (; 169 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -8622,7 +8624,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushObject (; 169 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushObject (; 170 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -8644,7 +8646,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/util/number/decimalCount64 (; 170 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/util/number/decimalCount64 (; 171 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   (local $1 i32)
   local.get $0
   i64.const 1000000000000000
@@ -8717,7 +8719,7 @@
   end
   unreachable
  )
- (func $~lib/util/number/utoa64_lut (; 171 ;) (type $FUNCSIG$viji) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $~lib/util/number/utoa64_lut (; 172 ;) (type $FUNCSIG$viji) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i64)
   (local $5 i32)
@@ -8844,7 +8846,7 @@
   local.get $2
   call $~lib/util/number/utoa32_lut
  )
- (func $~lib/util/number/itoa64 (; 172 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/util/number/itoa64 (; 173 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -8933,16 +8935,16 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/itoa<i64> (; 173 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/util/number/itoa<i64> (; 174 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   local.get $0
   call $~lib/util/number/itoa64
   return
  )
- (func $~lib/number/I64#toString (; 174 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/number/I64#toString (; 175 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   local.get $0
   call $~lib/util/number/itoa<i64>
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeInteger (; 175 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeInteger (; 176 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
   (local $2 i32)
   local.get $0
   local.get $1
@@ -8952,7 +8954,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setInteger (; 176 ;) (type $FUNCSIG$viij) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setInteger (; 177 ;) (type $FUNCSIG$viij) (param $0 i32) (param $1 i32) (param $2 i64)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -8965,7 +8967,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/encode<i32,~lib/near-bindgen-as/index/JSONEncoder> (; 177 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<i32,~lib/near-bindgen-as/index/JSONEncoder> (; 178 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -8989,7 +8991,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/encode<u32,~lib/near-bindgen-as/index/JSONEncoder> (; 178 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<u32,~lib/near-bindgen-as/index/JSONEncoder> (; 179 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -9013,7 +9015,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/util/number/utoa64 (; 179 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/util/number/utoa64 (; 180 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -9080,16 +9082,16 @@
   local.get $1
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/itoa<u64> (; 180 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/util/number/itoa<u64> (; 181 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   local.get $0
   call $~lib/util/number/utoa64
   return
  )
- (func $~lib/number/U64#toString (; 181 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
+ (func $~lib/number/U64#toString (; 182 ;) (type $FUNCSIG$ij) (param $0 i64) (result i32)
   local.get $0
   call $~lib/util/number/itoa<u64>
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setString (; 182 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setString (; 183 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -9107,7 +9109,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/encode<u64,~lib/near-bindgen-as/index/JSONEncoder> (; 183 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<u64,~lib/near-bindgen-as/index/JSONEncoder> (; 184 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -9134,7 +9136,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/encode<i64,~lib/near-bindgen-as/index/JSONEncoder> (; 184 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<i64,~lib/near-bindgen-as/index/JSONEncoder> (; 185 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -9161,7 +9163,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeBoolean (; 185 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeBoolean (; 186 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -9177,7 +9179,7 @@
   end
   call $~lib/assemblyscript-json/encoder/JSONEncoder#write
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setBoolean (; 186 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setBoolean (; 187 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -9190,7 +9192,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/encode<bool,~lib/near-bindgen-as/index/JSONEncoder> (; 187 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<bool,~lib/near-bindgen-as/index/JSONEncoder> (; 188 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -9213,7 +9215,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setNull (; 188 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setNull (; 189 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   drop
@@ -9226,7 +9228,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/string/String,~lib/near-bindgen-as/index/JSONEncoder> (; 189 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/string/String,~lib/near-bindgen-as/index/JSONEncoder> (; 190 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -9263,7 +9265,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-runtime-ts/base64/base64.encode (; 190 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/near-runtime-ts/base64/base64.encode (; 191 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -9512,7 +9514,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/typedarray/Uint8Array,~lib/near-bindgen-as/index/JSONEncoder> (; 191 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/typedarray/Uint8Array,~lib/near-bindgen-as/index/JSONEncoder> (; 192 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -9553,7 +9555,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushArray (; 192 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushArray (; 193 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -9575,11 +9577,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#get:length (; 193 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#get:length (; 194 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#__unchecked_get (; 194 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#__unchecked_get (; 195 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -9589,7 +9591,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#__get (; 195 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#__get (; 196 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -9621,7 +9623,7 @@
   end
   local.get $2
  )
- (func $~lib/array/Array<~lib/string/String>#__unchecked_get (; 196 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#__unchecked_get (; 197 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -9631,7 +9633,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/string/String>#__get (; 197 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#__get (; 198 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -9663,7 +9665,7 @@
   end
   local.get $2
  )
- (func $~lib/array/Array<i32>#pop (; 198 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<i32>#pop (; 199 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -9696,7 +9698,7 @@
   i32.store offset=12
   local.get $2
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#popArray (; 199 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#popArray (; 200 ;) (type $FUNCSIG$vi) (param $0 i32)
   local.get $0
   i32.const 2296
   call $~lib/assemblyscript-json/encoder/JSONEncoder#write
@@ -9705,7 +9707,7 @@
   call $~lib/array/Array<i32>#pop
   drop
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/string/String>,~lib/near-bindgen-as/index/JSONEncoder> (; 200 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/string/String>,~lib/near-bindgen-as/index/JSONEncoder> (; 201 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -9773,7 +9775,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/array/Array<~lib/string/String>>,~lib/near-bindgen-as/index/JSONEncoder> (; 201 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/array/Array<~lib/string/String>>,~lib/near-bindgen-as/index/JSONEncoder> (; 202 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -9841,11 +9843,11 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/array/Array<u32>#get:length (; 202 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<u32>#get:length (; 203 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<u32>#__unchecked_get (; 203 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u32>#__unchecked_get (; 204 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -9854,7 +9856,7 @@
   i32.add
   i32.load
  )
- (func $~lib/array/Array<u32>#__get (; 204 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u32>#__get (; 205 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -9874,7 +9876,7 @@
   local.set $2
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u32>,~lib/near-bindgen-as/index/JSONEncoder> (; 205 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u32>,~lib/near-bindgen-as/index/JSONEncoder> (; 206 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -9938,7 +9940,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<i32>,~lib/near-bindgen-as/index/JSONEncoder> (; 206 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<i32>,~lib/near-bindgen-as/index/JSONEncoder> (; 207 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -10002,7 +10004,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/typedarray/Int8Array#constructor (; 207 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Int8Array#constructor (; 208 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -10018,11 +10020,11 @@
   local.set $0
   local.get $0
  )
- (func $~lib/typedarray/Int8Array#get:length (; 208 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/typedarray/Int8Array#get:length (; 209 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=8
  )
- (func $~lib/typedarray/Int8Array#__get (; 209 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Int8Array#__get (; 210 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -10041,7 +10043,7 @@
   i32.add
   i32.load8_s
  )
- (func $~lib/typedarray/Int8Array#__set (; 210 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/typedarray/Int8Array#__set (; 211 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -10061,7 +10063,7 @@
   local.get $2
   i32.store8
  )
- (func $~lib/bignum/utils/processU64 (; 211 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
+ (func $~lib/bignum/utils/processU64 (; 212 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10209,7 +10211,7 @@
   local.get $0
   call $~lib/rt/stub/__release
  )
- (func $~lib/bignum/utils/u128toa10 (; 212 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/bignum/utils/u128toa10 (; 213 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -10299,7 +10301,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $~lib/bignum/integer/u128/u128#toString (; 213 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/bignum/integer/u128/u128#toString (; 214 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10565,7 +10567,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/bignum/integer/u128/u128,~lib/near-bindgen-as/index/JSONEncoder> (; 214 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/bignum/integer/u128/u128,~lib/near-bindgen-as/index/JSONEncoder> (; 215 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -10632,11 +10634,11 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#get:length (; 215 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#get:length (; 216 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__unchecked_get (; 216 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__unchecked_get (; 217 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -10646,7 +10648,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__get (; 217 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#__get (; 218 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -10678,7 +10680,7 @@
   end
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/typedarray/Uint8Array>,~lib/near-bindgen-as/index/JSONEncoder> (; 218 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/typedarray/Uint8Array>,~lib/near-bindgen-as/index/JSONEncoder> (; 219 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -10746,11 +10748,11 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/array/Array<u64>#get:length (; 219 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<u64>#get:length (; 220 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<u64>#__unchecked_get (; 220 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/array/Array<u64>#__unchecked_get (; 221 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -10759,7 +10761,7 @@
   i32.add
   i64.load
  )
- (func $~lib/array/Array<u64>#__get (; 221 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/array/Array<u64>#__get (; 222 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i64)
   local.get $1
   local.get $0
@@ -10779,7 +10781,7 @@
   local.set $2
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u64>,~lib/near-bindgen-as/index/JSONEncoder> (; 222 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u64>,~lib/near-bindgen-as/index/JSONEncoder> (; 223 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -10843,7 +10845,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#popObject (; 223 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#popObject (; 224 ;) (type $FUNCSIG$vi) (param $0 i32)
   local.get $0
   i32.const 1432
   call $~lib/assemblyscript-json/encoder/JSONEncoder#write
@@ -10852,7 +10854,7 @@
   call $~lib/array/Array<i32>#pop
   drop
  )
- (func $assembly/model/FooBar#_encode (; 224 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/FooBar#_encode (; 225 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -10977,13 +10979,13 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#toString (; 225 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#toString (; 226 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   i32.const 976
   call $~lib/array/Array<~lib/string/String>#join
  )
- (func $assembly/model/FooBar#toJSON (; 226 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/FooBar#toJSON (; 227 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -10997,13 +10999,13 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/arraybuffer/ArrayBuffer#get:byteLength (; 227 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#get:byteLength (; 228 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 16
   i32.sub
   i32.load offset=12
  )
- (func $~lib/typedarray/Uint8Array.wrap (; 228 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array.wrap (; 229 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -11122,7 +11124,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/typedarray/Uint8Array.wrap|trampoline (; 229 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array.wrap|trampoline (; 230 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -11145,7 +11147,7 @@
   local.get $2
   call $~lib/typedarray/Uint8Array.wrap
  )
- (func $~lib/assemblyscript-json/util/index/Buffer.fromString (; 230 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/util/index/Buffer.fromString (; 231 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -11184,7 +11186,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#serialize (; 231 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#serialize (; 232 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -11196,7 +11198,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/FooBar#encode (; 232 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/FooBar#encode (; 233 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -11210,7 +11212,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/FooBar> (; 233 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/FooBar> (; 234 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -11228,7 +11230,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<i32> (; 234 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<i32> (; 235 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -11246,7 +11248,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<i32,~lib/assemblyscript-json/JSON/JSON.Obj> (; 235 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<i32,~lib/assemblyscript-json/JSON/JSON.Obj> (; 236 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -11454,7 +11456,7 @@
   local.get $8
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<u32> (; 236 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<u32> (; 237 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -11472,7 +11474,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<u32,~lib/assemblyscript-json/JSON/JSON.Obj> (; 237 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<u32,~lib/assemblyscript-json/JSON/JSON.Obj> (; 238 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -11680,7 +11682,7 @@
   local.get $8
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<u64> (; 238 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<u64> (; 239 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -11698,7 +11700,7 @@
    i32.const 0
   end
  )
- (func $~lib/util/string/isSpace (; 239 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/string/isSpace (; 240 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 255
@@ -11787,7 +11789,7 @@
   end
   i32.const 0
  )
- (func $~lib/util/string/strtol<i64> (; 240 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/util/string/strtol<i64> (; 241 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -12078,7 +12080,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/number/U64.parseInt (; 241 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/number/U64.parseInt (; 242 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i64)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -12091,7 +12093,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/decode<u64,~lib/assemblyscript-json/JSON/JSON.Obj> (; 242 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/near-bindgen-as/index/decode<u64,~lib/assemblyscript-json/JSON/JSON.Obj> (; 243 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12308,7 +12310,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<i64> (; 243 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<i64> (; 244 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -12326,7 +12328,7 @@
    i32.const 0
   end
  )
- (func $~lib/number/I64.parseInt (; 244 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/number/I64.parseInt (; 245 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i64)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -12339,7 +12341,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/decode<i64,~lib/assemblyscript-json/JSON/JSON.Obj> (; 245 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/near-bindgen-as/index/decode<i64,~lib/assemblyscript-json/JSON/JSON.Obj> (; 246 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12556,7 +12558,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<bool> (; 246 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<bool> (; 247 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -12574,7 +12576,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<bool,~lib/assemblyscript-json/JSON/JSON.Obj> (; 247 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<bool,~lib/assemblyscript-json/JSON/JSON.Obj> (; 248 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12780,7 +12782,7 @@
   local.get $8
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/typedarray/Uint8Array> (; 248 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/typedarray/Uint8Array> (; 249 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -12798,7 +12800,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/typedarray/Uint8Array,~lib/assemblyscript-json/JSON/JSON.Obj> (; 249 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/typedarray/Uint8Array,~lib/assemblyscript-json/JSON/JSON.Obj> (; 250 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13018,7 +13020,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/array/Array<~lib/string/String>>> (; 250 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/array/Array<~lib/string/String>>> (; 251 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -13036,7 +13038,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#constructor (; 251 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#constructor (; 252 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -13058,7 +13060,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/string/String>> (; 252 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/string/String>> (; 253 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -13076,7 +13078,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value> (; 253 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value> (; 254 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13287,7 +13289,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/decodeArray<~lib/string/String> (; 254 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<~lib/string/String> (; 255 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13381,7 +13383,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/string/String>,~lib/assemblyscript-json/JSON/JSON.Value> (; 255 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/string/String>,~lib/assemblyscript-json/JSON/JSON.Value> (; 256 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13556,7 +13558,7 @@
   local.get $6
   return
  )
- (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#push (; 256 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<~lib/string/String>>#push (; 257 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13592,7 +13594,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decodeArray<~lib/array/Array<~lib/string/String>> (; 257 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<~lib/array/Array<~lib/string/String>> (; 258 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13686,7 +13688,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/array/Array<~lib/string/String>>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 258 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/array/Array<~lib/string/String>>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 259 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13861,7 +13863,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<u32>> (; 259 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<u32>> (; 260 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -13879,7 +13881,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<u32>#constructor (; 260 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u32>#constructor (; 261 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -13901,7 +13903,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/decode<u32,~lib/assemblyscript-json/JSON/JSON.Value> (; 261 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<u32,~lib/assemblyscript-json/JSON/JSON.Value> (; 262 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14109,7 +14111,7 @@
   local.get $8
   return
  )
- (func $~lib/array/Array<u32>#push (; 262 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u32>#push (; 263 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -14136,7 +14138,7 @@
   i32.store offset=12
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decodeArray<u32> (; 263 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<u32> (; 264 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14228,7 +14230,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<u32>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 264 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<u32>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 265 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14403,7 +14405,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<i32>> (; 265 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<i32>> (; 266 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -14421,7 +14423,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<i32,~lib/assemblyscript-json/JSON/JSON.Value> (; 266 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<i32,~lib/assemblyscript-json/JSON/JSON.Value> (; 267 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14629,7 +14631,7 @@
   local.get $8
   return
  )
- (func $~lib/near-bindgen-as/index/decodeArray<i32> (; 267 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<i32> (; 268 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14721,7 +14723,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<i32>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 268 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<i32>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 269 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -14896,7 +14898,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/bignum/integer/u128/u128> (; 269 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/bignum/integer/u128/u128> (; 270 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -14914,7 +14916,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<u8>#__unchecked_get (; 270 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__unchecked_get (; 271 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -14923,7 +14925,7 @@
   i32.add
   i32.load8_u
  )
- (func $~lib/array/Array<u8>#__get (; 271 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#__get (; 272 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -14943,7 +14945,7 @@
   local.set $2
   local.get $2
  )
- (func $~lib/bignum/globals/__multi3 (; 272 ;) (type $FUNCSIG$vijjjj) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64)
+ (func $~lib/bignum/globals/__multi3 (; 273 ;) (type $FUNCSIG$vijjjj) (param $0 i32) (param $1 i64) (param $2 i64) (param $3 i64) (param $4 i64)
   (local $5 i64)
   (local $6 i64)
   (local $7 i64)
@@ -15039,7 +15041,7 @@
   local.get $14
   global.set $~lib/bignum/globals/__res128_hi
  )
- (func $~lib/bignum/utils/atou128 (; 273 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/bignum/utils/atou128 (; 274 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16079,7 +16081,7 @@
   call $~lib/rt/stub/__release
   local.get $18
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/bignum/integer/u128/u128,~lib/assemblyscript-json/JSON/JSON.Obj> (; 274 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/bignum/integer/u128/u128,~lib/assemblyscript-json/JSON/JSON.Obj> (; 275 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16324,7 +16326,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/typedarray/Uint8Array>> (; 275 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/typedarray/Uint8Array>> (; 276 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -16342,7 +16344,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/typedarray/Uint8Array,~lib/assemblyscript-json/JSON/JSON.Value> (; 276 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/typedarray/Uint8Array,~lib/assemblyscript-json/JSON/JSON.Value> (; 277 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16562,7 +16564,7 @@
   local.get $6
   return
  )
- (func $~lib/array/Array<~lib/typedarray/Uint8Array>#push (; 277 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/typedarray/Uint8Array>#push (; 278 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16598,7 +16600,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decodeArray<~lib/typedarray/Uint8Array> (; 278 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<~lib/typedarray/Uint8Array> (; 279 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16692,7 +16694,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/typedarray/Uint8Array>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 279 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/typedarray/Uint8Array>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 280 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16867,7 +16869,7 @@
   local.get $6
   return
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<u64>> (; 280 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<u64>> (; 281 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -16885,7 +16887,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<u64>#constructor (; 281 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u64>#constructor (; 282 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -16907,7 +16909,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/decode<u64,~lib/assemblyscript-json/JSON/JSON.Value> (; 282 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/near-bindgen-as/index/decode<u64,~lib/assemblyscript-json/JSON/JSON.Value> (; 283 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17124,7 +17126,7 @@
   local.get $6
   return
  )
- (func $~lib/array/Array<u64>#push (; 283 ;) (type $FUNCSIG$iij) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/array/Array<u64>#push (; 284 ;) (type $FUNCSIG$iij) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -17151,7 +17153,7 @@
   i32.store offset=12
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decodeArray<u64> (; 284 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<u64> (; 285 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17243,7 +17245,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<u64>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 285 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<u64>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 286 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17418,7 +17420,7 @@
   local.get $6
   return
  )
- (func $assembly/model/FooBar#_decode (; 286 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/FooBar#_decode (; 287 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -17664,7 +17666,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/FooBar#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 287 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/FooBar#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 288 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17697,7 +17699,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/FooBar,~lib/typedarray/Uint8Array> (; 288 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/FooBar,~lib/typedarray/Uint8Array> (; 289 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17943,7 +17945,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/FooBar.decode (; 289 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/FooBar.decode (; 290 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -17956,7 +17958,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/model/Nullables#constructor (; 290 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Nullables#constructor (; 291 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -17977,7 +17979,7 @@
   i32.store offset=8
   local.get $0
  )
- (func $assembly/model/Nullables#_encode (; 291 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Nullables#_encode (; 292 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -18036,7 +18038,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/Nullables#encode (; 292 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Nullables#encode (; 293 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -18050,7 +18052,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/Nullables> (; 293 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/Nullables> (; 294 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -18068,7 +18070,7 @@
    i32.const 0
   end
  )
- (func $assembly/model/Nullables#_decode (; 294 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Nullables#_decode (; 295 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -18141,7 +18143,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/Nullables#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 295 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Nullables#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 296 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -18174,7 +18176,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/Nullables,~lib/typedarray/Uint8Array> (; 296 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/Nullables,~lib/typedarray/Uint8Array> (; 297 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -18420,7 +18422,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u64>,~lib/typedarray/Uint8Array> (; 297 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u64>,~lib/typedarray/Uint8Array> (; 298 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -18488,7 +18490,7 @@
   local.get $3
   return
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u64>,~lib/typedarray/Uint8Array>|trampoline (; 298 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<u64>,~lib/typedarray/Uint8Array>|trampoline (; 299 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -18519,7 +18521,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<u64>,~lib/typedarray/Uint8Array> (; 299 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<u64>,~lib/typedarray/Uint8Array> (; 300 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -18710,7 +18712,7 @@
   local.get $7
   return
  )
- (func $assembly/test/roundtrip<~lib/array/Array<u64>> (; 300 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/roundtrip<~lib/array/Array<u64>> (; 301 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -18732,7 +18734,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<i32,~lib/typedarray/Uint8Array> (; 301 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<i32,~lib/typedarray/Uint8Array> (; 302 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -18760,7 +18762,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/encode<i32,~lib/typedarray/Uint8Array>|trampoline (; 302 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<i32,~lib/typedarray/Uint8Array>|trampoline (; 303 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -18791,7 +18793,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decode<i32,~lib/typedarray/Uint8Array> (; 303 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<i32,~lib/typedarray/Uint8Array> (; 304 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19015,7 +19017,7 @@
   local.get $9
   return
  )
- (func $assembly/test/roundtrip<i32> (; 304 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/roundtrip<i32> (; 305 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   i32.const 1
@@ -19032,7 +19034,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<i64,~lib/typedarray/Uint8Array> (; 305 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<i64,~lib/typedarray/Uint8Array> (; 306 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -19063,7 +19065,7 @@
   local.get $3
   return
  )
- (func $~lib/near-bindgen-as/index/encode<i64,~lib/typedarray/Uint8Array>|trampoline (; 306 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<i64,~lib/typedarray/Uint8Array>|trampoline (; 307 ;) (type $FUNCSIG$ijii) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -19094,7 +19096,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decode<i64,~lib/typedarray/Uint8Array> (; 307 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/near-bindgen-as/index/decode<i64,~lib/typedarray/Uint8Array> (; 308 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19327,7 +19329,7 @@
   local.get $7
   return
  )
- (func $assembly/test/roundtrip<i64> (; 308 ;) (type $FUNCSIG$jj) (param $0 i64) (result i64)
+ (func $assembly/test/roundtrip<i64> (; 309 ;) (type $FUNCSIG$jj) (param $0 i64) (result i64)
   (local $1 i32)
   (local $2 i64)
   i32.const 1
@@ -19344,7 +19346,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/string/String,~lib/typedarray/Uint8Array> (; 309 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/string/String,~lib/typedarray/Uint8Array> (; 310 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -19385,7 +19387,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/string/String,~lib/typedarray/Uint8Array>|trampoline (; 310 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/string/String,~lib/typedarray/Uint8Array>|trampoline (; 311 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -19416,7 +19418,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/string/String,~lib/typedarray/Uint8Array> (; 311 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/string/String,~lib/typedarray/Uint8Array> (; 312 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19643,7 +19645,7 @@
   local.get $5
   return
  )
- (func $assembly/test/roundtrip<~lib/string/String> (; 312 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/roundtrip<~lib/string/String> (; 313 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -19665,7 +19667,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/bignum/integer/u128/u128,~lib/typedarray/Uint8Array> (; 313 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/bignum/integer/u128/u128,~lib/typedarray/Uint8Array> (; 314 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -19736,7 +19738,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/bignum/integer/u128/u128,~lib/typedarray/Uint8Array>|trampoline (; 314 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/bignum/integer/u128/u128,~lib/typedarray/Uint8Array>|trampoline (; 315 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -19767,7 +19769,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/bignum/integer/u128/u128,~lib/typedarray/Uint8Array> (; 315 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/bignum/integer/u128/u128,~lib/typedarray/Uint8Array> (; 316 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -20028,7 +20030,7 @@
   local.get $5
   return
  )
- (func $assembly/test/roundtrip<~lib/bignum/integer/u128/u128> (; 316 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/roundtrip<~lib/bignum/integer/u128/u128> (; 317 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -20050,7 +20052,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/test/runTest (; 317 ;) (type $FUNCSIG$v)
+ (func $assembly/test/runTest (; 318 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -20742,23 +20744,23 @@
   local.get $39
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/input (; 318 ;) (type $FUNCSIG$vj) (param $0 i64)
+ (func $~lib/near-bindgen-as/index/input (; 319 ;) (type $FUNCSIG$vj) (param $0 i64)
   local.get $0
   call $~lib/near-runtime-ts/runtime_api/runtime_api.input
  )
- (func $~lib/near-bindgen-as/index/register_len (; 319 ;) (type $FUNCSIG$jj) (param $0 i64) (result i64)
+ (func $~lib/near-bindgen-as/index/register_len (; 320 ;) (type $FUNCSIG$jj) (param $0 i64) (result i64)
   local.get $0
   call $~lib/near-runtime-ts/runtime_api/runtime_api.register_len
  )
- (func $~lib/near-bindgen-as/index/panic (; 320 ;) (type $FUNCSIG$v)
+ (func $~lib/near-bindgen-as/index/panic (; 321 ;) (type $FUNCSIG$v)
   call $~lib/near-runtime-ts/runtime_api/runtime_api.panic
  )
- (func $~lib/near-bindgen-as/index/read_register (; 321 ;) (type $FUNCSIG$vjj) (param $0 i64) (param $1 i64)
+ (func $~lib/near-bindgen-as/index/read_register (; 322 ;) (type $FUNCSIG$vjj) (param $0 i64) (param $1 i64)
   local.get $0
   local.get $1
   call $~lib/near-runtime-ts/runtime_api/runtime_api.read_register
  )
- (func $~lib/near-bindgen-as/index/getInput (; 322 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/getInput (; 323 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i64)
   (local $1 i32)
   (local $2 i32)
@@ -20798,7 +20800,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<assembly/model/FooBar>> (; 323 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<assembly/model/FooBar>> (; 324 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -20816,7 +20818,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/FooBar>#constructor (; 324 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/FooBar>#constructor (; 325 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -20838,7 +20840,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/FooBar,~lib/assemblyscript-json/JSON/JSON.Value> (; 325 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/FooBar,~lib/assemblyscript-json/JSON/JSON.Value> (; 326 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21068,7 +21070,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/array/Array<assembly/model/FooBar>#push (; 326 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/FooBar>#push (; 327 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21104,7 +21106,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decodeArray<assembly/model/FooBar> (; 327 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<assembly/model/FooBar> (; 328 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21198,7 +21200,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<assembly/model/FooBar>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 328 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<assembly/model/FooBar>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 329 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21373,7 +21375,7 @@
   local.get $6
   return
  )
- (func $assembly/main/convertFoobars~anonymous|0 (; 329 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/convertFoobars~anonymous|0 (; 330 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -21400,7 +21402,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/array/Array<assembly/model/FooBar>#map<assembly/model/ContainerClass> (; 330 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/FooBar>#map<assembly/model/ContainerClass> (; 331 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21475,7 +21477,7 @@
   end
   local.get $3
  )
- (func $assembly/main/convertFoobars (; 331 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/main/convertFoobars (; 332 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -21488,7 +21490,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/test/convertFoobars (; 332 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/convertFoobars (; 333 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -21500,11 +21502,11 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/array/Array<assembly/model/ContainerClass>#get:length (; 333 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/ContainerClass>#get:length (; 334 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/ContainerClass>#__unchecked_get (; 334 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/ContainerClass>#__unchecked_get (; 335 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -21514,7 +21516,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/ContainerClass>#__get (; 335 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/ContainerClass>#__get (; 336 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -21546,7 +21548,7 @@
   end
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/FooBar,~lib/near-bindgen-as/index/JSONEncoder> (; 336 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/FooBar,~lib/near-bindgen-as/index/JSONEncoder> (; 337 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -21584,7 +21586,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/ContainerClass#_encode (; 337 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/ContainerClass#_encode (; 338 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -21631,7 +21633,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/ContainerClass,~lib/near-bindgen-as/index/JSONEncoder> (; 338 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/ContainerClass,~lib/near-bindgen-as/index/JSONEncoder> (; 339 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -21669,7 +21671,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/ContainerClass>,~lib/typedarray/Uint8Array> (; 339 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/ContainerClass>,~lib/typedarray/Uint8Array> (; 340 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -21741,7 +21743,7 @@
   local.get $3
   return
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/ContainerClass>,~lib/typedarray/Uint8Array>|trampoline (; 340 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/ContainerClass>,~lib/typedarray/Uint8Array>|trampoline (; 341 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -21772,12 +21774,12 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/value_return (; 341 ;) (type $FUNCSIG$vjj) (param $0 i64) (param $1 i64)
+ (func $~lib/near-bindgen-as/index/value_return (; 342 ;) (type $FUNCSIG$vjj) (param $0 i64) (param $1 i64)
   local.get $0
   local.get $1
   call $~lib/near-runtime-ts/runtime_api/runtime_api.value_return
  )
- (func $assembly/test/__wrapper_convertFoobars (; 342 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_convertFoobars (; 343 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -21813,7 +21815,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/string/String>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 343 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/string/String>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 344 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21988,7 +21990,7 @@
   local.get $6
   return
  )
- (func $assembly/main/getStringArrayLength (; 344 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/main/getStringArrayLength (; 345 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -22017,7 +22019,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/test/getStringArrayLength (; 345 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/getStringArrayLength (; 346 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -22029,7 +22031,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/test/__wrapper_getStringArrayLength (; 346 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_getStringArrayLength (; 347 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -22063,7 +22065,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/ContainerClass> (; 347 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/ContainerClass> (; 348 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -22081,7 +22083,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/FooBar,~lib/assemblyscript-json/JSON/JSON.Obj> (; 348 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/FooBar,~lib/assemblyscript-json/JSON/JSON.Obj> (; 349 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -22311,7 +22313,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/model/ContainerClass#_decode (; 349 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/ContainerClass#_decode (; 350 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -22344,7 +22346,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/ContainerClass#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 350 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/ContainerClass#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 351 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -22377,7 +22379,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/ContainerClass,~lib/assemblyscript-json/JSON/JSON.Obj> (; 351 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/ContainerClass,~lib/assemblyscript-json/JSON/JSON.Obj> (; 352 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -22607,7 +22609,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/model/AnotherContainerClass#constructor (; 352 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#constructor (; 353 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -22622,7 +22624,7 @@
   i32.store
   local.get $0
  )
- (func $assembly/main/rewrapFoobar (; 353 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/main/rewrapFoobar (; 354 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -22684,7 +22686,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/test/rewrapFoobar (; 354 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/rewrapFoobar (; 355 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -22696,11 +22698,11 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#get:length (; 355 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#get:length (; 356 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#__unchecked_get (; 356 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#__unchecked_get (; 357 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -22710,7 +22712,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#__get (; 357 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#__get (; 358 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -22742,11 +22744,11 @@
   end
   local.get $2
  )
- (func $~lib/array/Array<assembly/model/FooBar>#get:length (; 358 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/FooBar>#get:length (; 359 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/FooBar>#__unchecked_get (; 359 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/FooBar>#__unchecked_get (; 360 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -22756,7 +22758,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/FooBar>#__get (; 360 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/FooBar>#__get (; 361 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -22788,7 +22790,7 @@
   end
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/FooBar>,~lib/near-bindgen-as/index/JSONEncoder> (; 361 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/FooBar>,~lib/near-bindgen-as/index/JSONEncoder> (; 362 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -22856,7 +22858,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>,~lib/near-bindgen-as/index/JSONEncoder> (; 362 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>,~lib/near-bindgen-as/index/JSONEncoder> (; 363 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -22924,7 +22926,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/AnotherContainerClass#_encode (; 363 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#_encode (; 364 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -22971,7 +22973,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/AnotherContainerClass,~lib/typedarray/Uint8Array> (; 364 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/AnotherContainerClass,~lib/typedarray/Uint8Array> (; 365 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -23013,7 +23015,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/AnotherContainerClass,~lib/typedarray/Uint8Array>|trampoline (; 365 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/AnotherContainerClass,~lib/typedarray/Uint8Array>|trampoline (; 366 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -23044,7 +23046,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/test/__wrapper_rewrapFoobar (; 366 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_rewrapFoobar (; 367 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -23080,7 +23082,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/AnotherContainerClass> (; 367 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/AnotherContainerClass> (; 368 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -23098,7 +23100,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>> (; 368 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>> (; 369 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -23116,7 +23118,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#constructor (; 369 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#constructor (; 370 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -23138,7 +23140,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<assembly/model/FooBar>,~lib/assemblyscript-json/JSON/JSON.Value> (; 370 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<assembly/model/FooBar>,~lib/assemblyscript-json/JSON/JSON.Value> (; 371 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23313,7 +23315,7 @@
   local.get $6
   return
  )
- (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#push (; 371 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>#push (; 372 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23349,7 +23351,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decodeArray<~lib/array/Array<assembly/model/FooBar>> (; 372 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<~lib/array/Array<assembly/model/FooBar>> (; 373 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23443,7 +23445,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 373 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<~lib/array/Array<assembly/model/FooBar>>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 374 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23618,7 +23620,7 @@
   local.get $6
   return
  )
- (func $assembly/model/AnotherContainerClass#_decode (; 374 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#_decode (; 375 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -23651,7 +23653,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/AnotherContainerClass#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 375 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 376 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23684,7 +23686,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/AnotherContainerClass,~lib/assemblyscript-json/JSON/JSON.Obj> (; 376 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/AnotherContainerClass,~lib/assemblyscript-json/JSON/JSON.Obj> (; 377 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23914,7 +23916,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/main/unwrapFoobar (; 377 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/main/unwrapFoobar (; 378 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -23934,7 +23936,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/test/unwrapFoobar (; 378 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/unwrapFoobar (; 379 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -23946,7 +23948,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/FooBar,~lib/typedarray/Uint8Array> (; 379 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/FooBar,~lib/typedarray/Uint8Array> (; 380 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -23988,7 +23990,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/FooBar,~lib/typedarray/Uint8Array>|trampoline (; 380 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/FooBar,~lib/typedarray/Uint8Array>|trampoline (; 381 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -24019,7 +24021,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/test/__wrapper_unwrapFoobar (; 381 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_unwrapFoobar (; 382 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -24055,14 +24057,14 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/stringOrNull (; 382 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/main/stringOrNull (; 383 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   call $~lib/rt/stub/__retain
  )
- (func $assembly/test/stringOrNull (; 383 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/test/stringOrNull (; 384 ;) (type $FUNCSIG$i) (result i32)
   call $assembly/main/stringOrNull
  )
- (func $assembly/test/__wrapper_stringOrNull (; 384 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_stringOrNull (; 385 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   call $assembly/test/stringOrNull
@@ -24086,7 +24088,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $assembly/test/stringAliasTest (; 385 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/test/stringAliasTest (; 386 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -24104,7 +24106,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/test/__wrapper_stringAliasTest (; 386 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_stringAliasTest (; 387 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -24140,14 +24142,14 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/classOrNull (; 387 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/main/classOrNull (; 388 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   call $assembly/model/FooBar#constructor
  )
- (func $assembly/test/classOrNull (; 388 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/test/classOrNull (; 389 ;) (type $FUNCSIG$i) (result i32)
   call $assembly/main/classOrNull
  )
- (func $assembly/test/__wrapper_classOrNull (; 389 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_classOrNull (; 390 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   call $assembly/test/classOrNull
@@ -24171,11 +24173,11 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $assembly/test/classAndNull (; 390 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/test/classAndNull (; 391 ;) (type $FUNCSIG$i) (result i32)
   i32.const 0
   call $~lib/rt/stub/__retain
  )
- (func $assembly/test/__wrapper_classAndNull (; 391 ;) (type $FUNCSIG$v)
+ (func $assembly/test/__wrapper_classAndNull (; 392 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   call $assembly/test/classAndNull
@@ -24199,11 +24201,11 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/FooBar#serialize (; 392 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/FooBar#serialize (; 393 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/FooBar#encode
  )
- (func $assembly/model/Nullables.decode (; 393 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Nullables.decode (; 394 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -24216,11 +24218,11 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/model/Nullables#serialize (; 394 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Nullables#serialize (; 395 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/Nullables#encode
  )
- (func $assembly/model/Nullables#toJSON (; 395 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Nullables#toJSON (; 396 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -24234,7 +24236,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/ContainerClass,~lib/typedarray/Uint8Array> (; 396 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/ContainerClass,~lib/typedarray/Uint8Array> (; 397 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24480,7 +24482,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/ContainerClass.decode (; 397 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/ContainerClass.decode (; 398 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -24493,7 +24495,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/model/ContainerClass#encode (; 398 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/ContainerClass#encode (; 399 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -24507,11 +24509,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/ContainerClass#serialize (; 399 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/ContainerClass#serialize (; 400 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/ContainerClass#encode
  )
- (func $assembly/model/ContainerClass#toJSON (; 400 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/ContainerClass#toJSON (; 401 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -24525,7 +24527,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/AnotherContainerClass,~lib/typedarray/Uint8Array> (; 401 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/AnotherContainerClass,~lib/typedarray/Uint8Array> (; 402 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24771,7 +24773,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/AnotherContainerClass.decode (; 402 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass.decode (; 403 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -24784,7 +24786,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/model/AnotherContainerClass#encode (; 403 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#encode (; 404 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -24798,11 +24800,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/AnotherContainerClass#serialize (; 404 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#serialize (; 405 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/AnotherContainerClass#encode
  )
- (func $assembly/model/AnotherContainerClass#toJSON (; 405 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#toJSON (; 406 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -24816,7 +24818,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/PromiseArgs> (; 406 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/PromiseArgs> (; 407 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -24834,7 +24836,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/PromiseArgs,~lib/assemblyscript-json/JSON/JSON.Obj> (; 407 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/PromiseArgs,~lib/assemblyscript-json/JSON/JSON.Obj> (; 408 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25064,7 +25066,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/model/PromiseArgs#_decode (; 408 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/PromiseArgs#_decode (; 409 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -25203,7 +25205,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/PromiseArgs#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 409 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/PromiseArgs#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 410 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25236,7 +25238,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/PromiseArgs,~lib/typedarray/Uint8Array> (; 410 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/PromiseArgs,~lib/typedarray/Uint8Array> (; 411 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25482,7 +25484,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/PromiseArgs.decode (; 411 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/PromiseArgs.decode (; 412 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25495,7 +25497,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/PromiseArgs,~lib/near-bindgen-as/index/JSONEncoder> (; 412 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/PromiseArgs,~lib/near-bindgen-as/index/JSONEncoder> (; 413 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -25533,7 +25535,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/PromiseArgs#_encode (; 413 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/PromiseArgs#_encode (; 414 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -25616,7 +25618,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/PromiseArgs#encode (; 414 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/PromiseArgs#encode (; 415 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -25630,11 +25632,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/PromiseArgs#serialize (; 415 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/PromiseArgs#serialize (; 416 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/PromiseArgs#encode
  )
- (func $assembly/model/PromiseArgs#toJSON (; 416 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/PromiseArgs#toJSON (; 417 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -25648,7 +25650,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/MyContractPromiseResult> (; 417 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/MyContractPromiseResult> (; 418 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -25666,7 +25668,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/MyCallbackResult> (; 418 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<assembly/model/MyCallbackResult> (; 419 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -25684,7 +25686,7 @@
    i32.const 0
   end
  )
- (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<assembly/model/MyContractPromiseResult>> (; 419 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/near-bindgen-as/index/isReallyNullable<~lib/array/Array<assembly/model/MyContractPromiseResult>> (; 420 ;) (type $FUNCSIG$i) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -25702,7 +25704,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#constructor (; 420 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#constructor (; 421 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -25724,7 +25726,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/MyContractPromiseResult,~lib/assemblyscript-json/JSON/JSON.Value> (; 421 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/MyContractPromiseResult,~lib/assemblyscript-json/JSON/JSON.Value> (; 422 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25954,7 +25956,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#push (; 422 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#push (; 423 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25990,7 +25992,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/decodeArray<assembly/model/MyContractPromiseResult> (; 423 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decodeArray<assembly/model/MyContractPromiseResult> (; 424 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26084,7 +26086,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<assembly/model/MyContractPromiseResult>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 424 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<~lib/array/Array<assembly/model/MyContractPromiseResult>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 425 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26259,7 +26261,7 @@
   local.get $6
   return
  )
- (func $assembly/model/MyCallbackResult#_decode (; 425 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#_decode (; 426 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -26312,7 +26314,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/MyCallbackResult#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 426 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 427 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26345,7 +26347,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/MyCallbackResult,~lib/assemblyscript-json/JSON/JSON.Obj> (; 427 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/MyCallbackResult,~lib/assemblyscript-json/JSON/JSON.Obj> (; 428 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26575,7 +26577,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/model/MyContractPromiseResult#_decode (; 428 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#_decode (; 429 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -26621,7 +26623,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/MyContractPromiseResult#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 429 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 430 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26654,7 +26656,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/MyContractPromiseResult,~lib/typedarray/Uint8Array> (; 430 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/MyContractPromiseResult,~lib/typedarray/Uint8Array> (; 431 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26900,7 +26902,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/MyContractPromiseResult.decode (; 431 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult.decode (; 432 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -26913,11 +26915,11 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#get:length (; 432 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#get:length (; 433 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#__unchecked_get (; 433 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#__unchecked_get (; 434 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -26927,7 +26929,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#__get (; 434 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/MyContractPromiseResult>#__get (; 435 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -26959,7 +26961,7 @@
   end
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/MyContractPromiseResult,~lib/near-bindgen-as/index/JSONEncoder> (; 435 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/MyContractPromiseResult,~lib/near-bindgen-as/index/JSONEncoder> (; 436 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -26997,7 +26999,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/MyContractPromiseResult>,~lib/near-bindgen-as/index/JSONEncoder> (; 436 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<~lib/array/Array<assembly/model/MyContractPromiseResult>,~lib/near-bindgen-as/index/JSONEncoder> (; 437 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27065,7 +27067,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/MyCallbackResult#_encode (; 437 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#_encode (; 438 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -27118,7 +27120,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/MyCallbackResult,~lib/near-bindgen-as/index/JSONEncoder> (; 438 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/MyCallbackResult,~lib/near-bindgen-as/index/JSONEncoder> (; 439 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -27156,7 +27158,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/MyContractPromiseResult#_encode (; 439 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#_encode (; 440 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -27209,7 +27211,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/MyContractPromiseResult#encode (; 440 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#encode (; 441 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -27223,11 +27225,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/MyContractPromiseResult#serialize (; 441 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#serialize (; 442 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/MyContractPromiseResult#encode
  )
- (func $assembly/model/MyContractPromiseResult#toJSON (; 442 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#toJSON (; 443 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -27241,7 +27243,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/decode<assembly/model/MyCallbackResult,~lib/typedarray/Uint8Array> (; 443 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/decode<assembly/model/MyCallbackResult,~lib/typedarray/Uint8Array> (; 444 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -27487,7 +27489,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/MyCallbackResult.decode (; 444 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyCallbackResult.decode (; 445 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -27500,7 +27502,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/model/MyCallbackResult#encode (; 445 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#encode (; 446 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -27514,11 +27516,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/MyCallbackResult#serialize (; 446 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#serialize (; 447 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/MyCallbackResult#encode
  )
- (func $assembly/model/MyCallbackResult#toJSON (; 447 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#toJSON (; 448 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -27532,7 +27534,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/Contract.decode (; 448 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Contract.decode (; 449 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -27545,7 +27547,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/model/Contract#constructor (; 449 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Contract#constructor (; 450 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -27584,12 +27586,12 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $assembly/model/Contract#getName (; 450 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Contract#getName (; 451 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $assembly/model/Contract#_encode (; 451 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Contract#_encode (; 452 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -27636,7 +27638,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/Contract#encode (; 452 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Contract#encode (; 453 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -27650,11 +27652,11 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/Contract#serialize (; 453 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Contract#serialize (; 454 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $assembly/model/Contract#encode
  )
- (func $assembly/model/Contract#toJSON (; 454 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $assembly/model/Contract#toJSON (; 455 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -27668,7 +27670,50 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/Contract,~lib/typedarray/Uint8Array> (; 455 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-runtime-ts/storage/Storage#delete (; 456 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  local.get $1
+  call $~lib/rt/stub/__retain
+  drop
+  local.get $1
+  call $~lib/near-runtime-ts/util/util.stringToBytes
+  local.set $2
+  local.get $2
+  i32.load offset=8
+  i64.extend_i32_s
+  local.get $2
+  i32.load offset=4
+  i64.extend_i32_u
+  i64.const 0
+  call $~lib/near-runtime-ts/runtime_api/runtime_api.storage_remove
+  drop
+  local.get $2
+  call $~lib/rt/stub/__release
+  local.get $1
+  call $~lib/rt/stub/__release
+ )
+ (func $assembly/model/Contract_delete (; 457 ;) (type $FUNCSIG$i) (result i32)
+  (local $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  global.get $~lib/near-runtime-ts/storage/storage
+  i32.const 560
+  call $~lib/near-runtime-ts/storage/Storage#delete
+  global.get $~lib/near-runtime-ts/storage/storage
+  local.set $1
+  i32.const 560
+  call $~lib/rt/stub/__retain
+  local.set $0
+  local.get $1
+  local.get $0
+  call $~lib/near-runtime-ts/storage/Storage#contains
+  local.set $2
+  local.get $0
+  call $~lib/rt/stub/__release
+  local.get $2
+  i32.eqz
+ )
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/Contract,~lib/typedarray/Uint8Array> (; 458 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -27710,7 +27755,7 @@
   local.get $4
   return
  )
- (func $~lib/near-bindgen-as/index/encode<assembly/model/Contract,~lib/typedarray/Uint8Array>|trampoline (; 456 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-bindgen-as/index/encode<assembly/model/Contract,~lib/typedarray/Uint8Array>|trampoline (; 459 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -27741,7 +27786,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-runtime-ts/storage/Storage#setBytes (; 457 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-runtime-ts/storage/Storage#setBytes (; 460 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i64)
   local.get $1
@@ -27775,7 +27820,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-runtime-ts/storage/Storage#set<assembly/model/Contract> (; 458 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-runtime-ts/storage/Storage#set<assembly/model/Contract> (; 461 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -27800,7 +27845,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/Contract_init (; 459 ;) (type $FUNCSIG$v)
+ (func $assembly/model/Contract_init (; 462 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27839,7 +27884,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/Contract_getName (; 460 ;) (type $FUNCSIG$v)
+ (func $assembly/model/Contract_getName (; 463 ;) (type $FUNCSIG$v)
   (local $0 i32)
   (local $1 i32)
   global.get $~lib/near-runtime-ts/storage/storage
@@ -27891,7 +27936,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $start (; 461 ;) (type $FUNCSIG$v)
+ (func $start (; 464 ;) (type $FUNCSIG$v)
   global.get $~lib/started
   if
    return
@@ -27901,68 +27946,68 @@
   end
   call $start:assembly/test
  )
- (func $null (; 462 ;) (type $FUNCSIG$v)
+ (func $null (; 465 ;) (type $FUNCSIG$v)
  )
- (func $FooBar#get:foo (; 463 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:foo (; 466 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
  )
- (func $FooBar#set:foo (; 464 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:foo (; 467 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   i32.store
  )
- (func $FooBar#get:bar (; 465 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:bar (; 468 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
  )
- (func $FooBar#set:bar (; 466 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:bar (; 469 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   i32.store offset=4
  )
- (func $FooBar#get:u64Val (; 467 ;) (type $FUNCSIG$ji) (param $0 i32) (result i64)
+ (func $FooBar#get:u64Val (; 470 ;) (type $FUNCSIG$ji) (param $0 i32) (result i64)
   local.get $0
   i64.load offset=8
  )
- (func $FooBar#set:u64Val (; 468 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
+ (func $FooBar#set:u64Val (; 471 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
   local.get $0
   local.get $1
   i64.store offset=8
  )
- (func $FooBar#get:u64_zero (; 469 ;) (type $FUNCSIG$ji) (param $0 i32) (result i64)
+ (func $FooBar#get:u64_zero (; 472 ;) (type $FUNCSIG$ji) (param $0 i32) (result i64)
   local.get $0
   i64.load offset=16
  )
- (func $FooBar#set:u64_zero (; 470 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
+ (func $FooBar#set:u64_zero (; 473 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
   local.get $0
   local.get $1
   i64.store offset=16
  )
- (func $FooBar#get:i64Val (; 471 ;) (type $FUNCSIG$ji) (param $0 i32) (result i64)
+ (func $FooBar#get:i64Val (; 474 ;) (type $FUNCSIG$ji) (param $0 i32) (result i64)
   local.get $0
   i64.load offset=24
  )
- (func $FooBar#set:i64Val (; 472 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
+ (func $FooBar#set:i64Val (; 475 ;) (type $FUNCSIG$vij) (param $0 i32) (param $1 i64)
   local.get $0
   local.get $1
   i64.store offset=24
  )
- (func $FooBar#get:flag (; 473 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:flag (; 476 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load8_u offset=32
  )
- (func $FooBar#set:flag (; 474 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:flag (; 477 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   i32.store8 offset=32
  )
- (func $FooBar#get:baz (; 475 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:baz (; 478 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=36
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:baz (; 476 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:baz (; 479 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $0
@@ -27980,12 +28025,12 @@
   local.get $0
   i32.store offset=36
  )
- (func $FooBar#get:uint8array (; 477 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:uint8array (; 480 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=40
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:uint8array (; 478 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:uint8array (; 481 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28003,12 +28048,12 @@
   local.get $1
   i32.store offset=40
  )
- (func $FooBar#get:arr (; 479 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:arr (; 482 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=44
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:arr (; 480 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:arr (; 483 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28026,12 +28071,12 @@
   local.get $1
   i32.store offset=44
  )
- (func $FooBar#get:u32Arr (; 481 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:u32Arr (; 484 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=48
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:u32Arr (; 482 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:u32Arr (; 485 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28049,12 +28094,12 @@
   local.get $1
   i32.store offset=48
  )
- (func $FooBar#get:i32Arr (; 483 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:i32Arr (; 486 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=52
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:i32Arr (; 484 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:i32Arr (; 487 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28072,12 +28117,12 @@
   local.get $1
   i32.store offset=52
  )
- (func $FooBar#get:u128Val (; 485 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:u128Val (; 488 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=56
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:u128Val (; 486 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:u128Val (; 489 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28095,12 +28140,12 @@
   local.get $1
   i32.store offset=56
  )
- (func $FooBar#get:uint8arrays (; 487 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:uint8arrays (; 490 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=60
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:uint8arrays (; 488 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:uint8arrays (; 491 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28118,12 +28163,12 @@
   local.get $1
   i32.store offset=60
  )
- (func $FooBar#get:u64Arr (; 489 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $FooBar#get:u64Arr (; 492 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=64
   call $~lib/rt/stub/__retain
  )
- (func $FooBar#set:u64Arr (; 490 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $FooBar#set:u64Arr (; 493 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28141,7 +28186,7 @@
   local.get $1
   i32.store offset=64
  )
- (func $assembly/model/FooBar#_encode|trampoline (; 491 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/FooBar#_encode|trampoline (; 494 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28162,16 +28207,16 @@
   local.get $2
   call $assembly/model/FooBar#_encode
  )
- (func $~lib/setargc (; 492 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/setargc (; 495 ;) (type $FUNCSIG$vi) (param $0 i32)
   local.get $0
   global.set $~lib/argc
  )
- (func $Nullables#get:str (; 493 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $Nullables#get:str (; 496 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $Nullables#set:str (; 494 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $Nullables#set:str (; 497 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28189,12 +28234,12 @@
   local.get $1
   i32.store
  )
- (func $Nullables#get:u128 (; 495 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $Nullables#get:u128 (; 498 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   call $~lib/rt/stub/__retain
  )
- (func $Nullables#set:u128 (; 496 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $Nullables#set:u128 (; 499 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28212,12 +28257,12 @@
   local.get $1
   i32.store offset=4
  )
- (func $Nullables#get:uint8Array (; 497 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $Nullables#get:uint8Array (; 500 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=8
   call $~lib/rt/stub/__retain
  )
- (func $Nullables#set:uint8Array (; 498 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $Nullables#set:uint8Array (; 501 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28235,7 +28280,7 @@
   local.get $1
   i32.store offset=8
  )
- (func $assembly/model/Nullables#_encode|trampoline (; 499 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Nullables#_encode|trampoline (; 502 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28256,12 +28301,12 @@
   local.get $2
   call $assembly/model/Nullables#_encode
  )
- (func $ContainerClass#get:foobar (; 500 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $ContainerClass#get:foobar (; 503 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $ContainerClass#set:foobar (; 501 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $ContainerClass#set:foobar (; 504 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28279,7 +28324,7 @@
   local.get $1
   i32.store
  )
- (func $assembly/model/ContainerClass#_encode|trampoline (; 502 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/ContainerClass#_encode|trampoline (; 505 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28300,12 +28345,12 @@
   local.get $2
   call $assembly/model/ContainerClass#_encode
  )
- (func $AnotherContainerClass#get:foobars (; 503 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $AnotherContainerClass#get:foobars (; 506 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $AnotherContainerClass#set:foobars (; 504 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $AnotherContainerClass#set:foobars (; 507 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28323,7 +28368,7 @@
   local.get $1
   i32.store
  )
- (func $assembly/model/AnotherContainerClass#_encode|trampoline (; 505 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/AnotherContainerClass#_encode|trampoline (; 508 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28344,12 +28389,12 @@
   local.get $2
   call $assembly/model/AnotherContainerClass#_encode
  )
- (func $PromiseArgs#get:receiver (; 506 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:receiver (; 509 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $PromiseArgs#set:receiver (; 507 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:receiver (; 510 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28367,12 +28412,12 @@
   local.get $1
   i32.store
  )
- (func $PromiseArgs#get:methodName (; 508 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:methodName (; 511 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   call $~lib/rt/stub/__retain
  )
- (func $PromiseArgs#set:methodName (; 509 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:methodName (; 512 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28390,12 +28435,12 @@
   local.get $1
   i32.store offset=4
  )
- (func $PromiseArgs#get:args (; 510 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:args (; 513 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=8
   call $~lib/rt/stub/__retain
  )
- (func $PromiseArgs#set:args (; 511 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:args (; 514 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28413,21 +28458,21 @@
   local.get $1
   i32.store offset=8
  )
- (func $PromiseArgs#get:balance (; 512 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:balance (; 515 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $PromiseArgs#set:balance (; 513 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:balance (; 516 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   i32.store offset=12
  )
- (func $PromiseArgs#get:callback (; 514 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:callback (; 517 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=16
   call $~lib/rt/stub/__retain
  )
- (func $PromiseArgs#set:callback (; 515 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:callback (; 518 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28445,12 +28490,12 @@
   local.get $1
   i32.store offset=16
  )
- (func $PromiseArgs#get:callbackArgs (; 516 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:callbackArgs (; 519 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=20
   call $~lib/rt/stub/__retain
  )
- (func $PromiseArgs#set:callbackArgs (; 517 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:callbackArgs (; 520 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28468,16 +28513,16 @@
   local.get $1
   i32.store offset=20
  )
- (func $PromiseArgs#get:callbackBalance (; 518 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $PromiseArgs#get:callbackBalance (; 521 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=24
  )
- (func $PromiseArgs#set:callbackBalance (; 519 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $PromiseArgs#set:callbackBalance (; 522 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   i32.store offset=24
  )
- (func $assembly/model/PromiseArgs#_encode|trampoline (; 520 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/PromiseArgs#_encode|trampoline (; 523 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28498,21 +28543,21 @@
   local.get $2
   call $assembly/model/PromiseArgs#_encode
  )
- (func $MyContractPromiseResult#get:ok (; 521 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $MyContractPromiseResult#get:ok (; 524 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load8_u
  )
- (func $MyContractPromiseResult#set:ok (; 522 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $MyContractPromiseResult#set:ok (; 525 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   i32.store8
  )
- (func $MyContractPromiseResult#get:r (; 523 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $MyContractPromiseResult#get:r (; 526 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   call $~lib/rt/stub/__retain
  )
- (func $MyContractPromiseResult#set:r (; 524 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $MyContractPromiseResult#set:r (; 527 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28530,7 +28575,7 @@
   local.get $1
   i32.store offset=4
  )
- (func $assembly/model/MyContractPromiseResult#_encode|trampoline (; 525 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/MyContractPromiseResult#_encode|trampoline (; 528 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28551,12 +28596,12 @@
   local.get $2
   call $assembly/model/MyContractPromiseResult#_encode
  )
- (func $MyCallbackResult#get:rs (; 526 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $MyCallbackResult#get:rs (; 529 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $MyCallbackResult#set:rs (; 527 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $MyCallbackResult#set:rs (; 530 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28574,12 +28619,12 @@
   local.get $1
   i32.store
  )
- (func $MyCallbackResult#get:n (; 528 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $MyCallbackResult#get:n (; 531 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   call $~lib/rt/stub/__retain
  )
- (func $MyCallbackResult#set:n (; 529 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $MyCallbackResult#set:n (; 532 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   local.get $1
   local.tee $1
@@ -28597,7 +28642,7 @@
   local.get $1
   i32.store offset=4
  )
- (func $assembly/model/MyCallbackResult#_encode|trampoline (; 530 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/MyCallbackResult#_encode|trampoline (; 533 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -28618,7 +28663,7 @@
   local.get $2
   call $assembly/model/MyCallbackResult#_encode
  )
- (func $assembly/model/Contract#_encode|trampoline (; 531 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Contract#_encode|trampoline (; 534 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2

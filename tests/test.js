@@ -106,6 +106,12 @@ async function loadModule(path) {
             storage_write(key_len, key_ptr, data_len, data_ptr) {
               storage.set(readUTF8(key_len, key_ptr), readBuffer(data_len, data_ptr));
               return BigInt(1);
+            },
+            storage_remove(key_len, key_ptr, register_id) {
+              const key = readUTF8(key_len, key_ptr);
+              registers[register_id] = key
+              storage.delete(key);
+              return BigInt(!storage.has(key));
             }
         }
     });
@@ -301,6 +307,15 @@ async function testFloatDetection(file){
     assert.deepEqual(await module.classAndNull(), null);
     await module.Contract_init("name");
     assert.equal(await module.Contract_getName(), "name");
+    await module.Contract_delete();
+    try {
+      await module.Contract_getName();
+    } catch (e) {
+      assert.equal(e.message, "key __contract does not exist!");
+    }
+    await module.Contract_init("name2");
+    assert.equal(await module.Contract_getName(), "name2");
+
 
     await testFloatDetection("assembly/f32.ts");
     await testFloatDetection("assembly/f64.ts");
